@@ -7,26 +7,28 @@
       <div class="cell">Availability</div>
       <div class="cell" style="text-align: right;">Action</div>
     </div>
-    
-    <div *ngFor="let user of users" class="data-row">
-      <div class="cell cell-muted">#{{ user.id }}</div>
-      <div class="cell" style="display: flex; align-items: center; gap: 0.75rem;">
-        <div class="avatar">{{ getInitials(user.name) }}</div>
-        <div style="display: flex; flex-direction: column;">
-          <span>{{ user.name }}</span>
-          <span class="cell-muted">{{ user.email }}</span>
+
+    @for (user of users; track user) {
+      <div class="data-row">
+        <div class="cell cell-muted">#{{ user.id }}</div>
+        <div class="cell" style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="avatar">{{ getInitials(user.name) }}</div>
+          <div style="display: flex; flex-direction: column;">
+            <span>{{ user.name }}</span>
+            <span class="cell-muted">{{ user.email }}</span>
+          </div>
+        </div>
+        <div class="cell">{{ user.role }}</div>
+        <div class="cell">
+          <div class="status-indicator">
+            <div class="dot" [ngClass]="'dot-' + user.status"></div>
+            <span style="text-transform: capitalize;">{{ user.status }}</span>
+          </div>
+        </div>
+        <div class="cell" style="text-align: right;">
+          <button class="btn-premium" style="padding: 0.3rem 0.8rem; font-size: 0.75rem;">Manage</button>
         </div>
       </div>
-      <div class="cell">{{ user.role }}</div>
-      <div class="cell">
-        <div class="status-indicator">
-          <div class="dot" [ngClass]="'dot-' + user.status"></div>
-          <span style="text-transform: capitalize;">{{ user.status }}</span>
-        </div>
-      </div>
-      <div class="cell" style="text-align: right;">
-        <button class="btn-premium" style="padding: 0.3rem 0.8rem; font-size: 0.75rem;">Manage</button>
-      </div>
-    </div>
+    }
   </div>
 </div>

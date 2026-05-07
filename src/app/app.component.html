@@ -39,10 +39,18 @@
 
     <header class="top-nav glass">
       <div class="page-title">
-        <span *ngIf="activeView === 'dashboard'">Layout Engine / Visualization</span>
-        <span *ngIf="activeView === 'grid'">Data Intelligence / Neural Grid</span>
-        <span *ngIf="activeView === 'calendar'">Temporal Planning / Scheduler</span>
-        <span *ngIf="activeView === 'workflow'">Logic Architecture / Designer</span>
+        @if (activeView === 'dashboard') {
+          <span>Layout Engine / Visualization</span>
+        }
+        @if (activeView === 'grid') {
+          <span>Data Intelligence / Neural Grid</span>
+        }
+        @if (activeView === 'calendar') {
+          <span>Temporal Planning / Scheduler</span>
+        }
+        @if (activeView === 'workflow') {
+          <span>Logic Architecture / Designer</span>
+        }
       </div>
       <div class="user-profile">
         <input type="text" class="search-bar" placeholder="Universal Search...">
@@ -51,10 +59,18 @@
     </header>
 
     <div class="content-area">
-      <app-layout-manager *ngIf="activeView === 'dashboard'"></app-layout-manager>
-      <app-data-grid *ngIf="activeView === 'grid'"></app-data-grid>
-      <app-calendar *ngIf="activeView === 'calendar'"></app-calendar>
-      <app-workflow-designer *ngIf="activeView === 'workflow'"></app-workflow-designer>
+      @if (activeView === 'dashboard') {
+        <app-layout-manager></app-layout-manager>
+      }
+      @if (activeView === 'grid') {
+        <app-data-grid></app-data-grid>
+      }
+      @if (activeView === 'calendar') {
+        <app-calendar></app-calendar>
+      }
+      @if (activeView === 'workflow') {
+        <app-workflow-designer></app-workflow-designer>
+      }
     </div>
   </main>
 </div>
