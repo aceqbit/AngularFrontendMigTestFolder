@@ -1,0 +1,28 @@
+<div class="calendar-wrapper">
+  <div class="calendar-header glass">
+    <div class="month-title">{{ getMonthName() }}</div>
+    <div class="nav-buttons">
+      <button class="nav-btn" (click)="prevMonth()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="nav-btn" (click)="nextMonth()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="calendar-grid">
+    <div *ngFor="let day of weekdays" class="weekday">
+      {{ day }}
+    </div>
+    
+    <div *ngFor="let day of days" class="day-cell" [ngClass]="{'other-month': !day.isCurrentMonth, 'today': day.isToday}">
+      <div class="day-number">{{ day.date.getDate() }}</div>
+      <div class="event-list">
+        <div *ngFor="let event of day.events" class="event-pill" [ngClass]="event.type">
+          {{ event.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

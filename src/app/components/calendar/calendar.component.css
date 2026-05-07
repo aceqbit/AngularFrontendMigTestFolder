@@ -1,0 +1,119 @@
+.calendar-wrapper {
+  padding: 2rem;
+  width: 100%;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+.month-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: var(--bg-accent);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--glass-border);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.weekday {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.day-cell {
+  background: var(--bg-primary);
+  min-height: 120px;
+  padding: 0.75rem;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.day-cell:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.day-number {
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.day-cell.today .day-number {
+  color: var(--accent-blue);
+  font-weight: 700;
+}
+
+.day-cell.today {
+  border-top: 2px solid var(--accent-blue);
+}
+
+.event-list {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.event-pill {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(0, 123, 255, 0.1);
+  color: var(--accent-blue);
+  border-left: 3px solid var(--accent-blue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-pill.purple {
+  background: rgba(111, 66, 193, 0.1);
+  color: var(--accent-purple);
+  border-left-color: var(--accent-purple);
+}
+
+.other-month {
+  opacity: 0.3;
+}

@@ -1,0 +1,32 @@
+<div class="designer-container">
+  <!-- Connection Canvas -->
+  <svg class="canvas-svg">
+    <path 
+      *ngFor="let conn of connections" 
+      [attr.d]="getConnectionPath(conn)" 
+      class="connection-line"
+    />
+  </svg>
+
+  <!-- Nodes -->
+  <div 
+    *ngFor="let node of nodes" 
+    class="node" 
+    [style.left.px]="node.x" 
+    [style.top.px]="node.y"
+    (mousedown)="startDrag($event, node)"
+  >
+    <div class="node-header">
+      <div class="node-icon"></div>
+      {{ node.name }}
+    </div>
+    <div class="node-content">
+      Instance: {{ node.id }}<br>
+      Status: Ready
+    </div>
+    
+    <!-- Ports -->
+    <div class="port port-input"></div>
+    <div class="port port-output"></div>
+  </div>
+</div>
