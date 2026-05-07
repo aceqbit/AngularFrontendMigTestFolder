@@ -14,9 +14,10 @@ interface Connection {
 }
 
 @Component({
-  selector: 'app-workflow-designer',
-  templateUrl: './workflow-designer.component.html',
-  styleUrls: ['./workflow-designer.component.css']
+    selector: 'app-workflow-designer',
+    templateUrl: './workflow-designer.component.html',
+    styleUrls: ['./workflow-designer.component.css'],
+    standalone: false
 })
 export class WorkflowDesignerComponent {
   nodes: Node[] = [

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-data-grid',
-  templateUrl: './data-grid.component.html',
-  styleUrls: ['./data-grid.component.css']
+    selector: 'app-data-grid',
+    templateUrl: './data-grid.component.html',
+    styleUrls: ['./data-grid.component.css'],
+    standalone: false
 })
 export class DataGridComponent {
   users = [
