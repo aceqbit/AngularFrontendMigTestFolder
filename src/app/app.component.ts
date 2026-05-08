@@ -17,27 +17,26 @@ import { DateRangePickerComponent } from './components/date-range-picker/date-ra
 import { AutoCompleteComplexComponent } from './components/autocomplete-complex/autocomplete-complex.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    LayoutManagerComponent,
-    DashboardWidgetsComponent,
-    WorkflowDesignerComponent,
-    CalendarComponent,
-    DateRangePickerComponent,
-    EventSchedulerComponent,
-    DataGridComponent,
-    AutoCompleteComplexComponent,
-    FileExplorerComponent,
-    AdvancedFormStepperComponent,
-    TreeViewLargeComponent,
-    StickyNotesComponent,
-    NotificationHubComponent,
-    ResourceMonitorComponent,
-    SettingsPanelComponent
-],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+    selector: 'app-root',
+    imports: [
+        LayoutManagerComponent,
+        DashboardWidgetsComponent,
+        WorkflowDesignerComponent,
+        CalendarComponent,
+        DateRangePickerComponent,
+        EventSchedulerComponent,
+        DataGridComponent,
+        AutoCompleteComplexComponent,
+        FileExplorerComponent,
+        AdvancedFormStepperComponent,
+        TreeViewLargeComponent,
+        StickyNotesComponent,
+        NotificationHubComponent,
+        ResourceMonitorComponent,
+        SettingsPanelComponent
+    ],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   activeSection: string = 'dashboard';
