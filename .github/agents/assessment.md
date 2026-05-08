@@ -26,6 +26,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
 - **Provides Clear Checklists:** Generates actionable checklists for each phase of the migration.
 - **Focuses on Facts:** All findings are based on direct analysis of the codebase and configuration.
 
+
 #### What it Avoids (What Nots)
 - **No Code Modification:** The agent is read-only. It analyzes and reports but **never** modifies source code.
 - **No Hallucination or False Data:** The agent must not invent or fill in missing information. All reports must be based on verifiable data from the project.
