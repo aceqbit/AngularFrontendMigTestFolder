@@ -1,12 +1,14 @@
 <div class="settings-container">
   <div class="settings-nav">
-    <div *ngFor="let cat of categories" 
-         class="nav-item" 
-         [class.active]="activeTab === cat.id"
-         (click)="activeTab = cat.id">
-      <span class="icon">{{ cat.icon }}</span>
-      <span class="label">{{ cat.label }}</span>
-    </div>
+    @for (cat of categories; track cat) {
+      <div
+        class="nav-item"
+        [class.active]="activeTab === cat.id"
+        (click)="activeTab = cat.id">
+        <span class="icon">{{ cat.icon }}</span>
+        <span class="label">{{ cat.label }}</span>
+      </div>
+    }
   </div>
 
   <div class="settings-content">
@@ -45,12 +47,16 @@
       </div>
 
       <!-- Extra heavy sections -->
-      <div class="debug-dump" *ngFor="let i of [1,2,3]">
-        <h4>System Trace Log v{{i}}</h4>
-        <div class="trace-line" *ngFor="let j of [1,2,3,4,5]">
-          <code>[TRACE] 0x{{j}}FFF: SYNC_ACK_RECEIVED</code>
+      @for (i of [1,2,3]; track i) {
+        <div class="debug-dump">
+          <h4>System Trace Log v{{i}}</h4>
+          @for (j of [1,2,3,4,5]; track j) {
+            <div class="trace-line">
+              <code>[TRACE] 0x{{j}}FFF: SYNC_ACK_RECEIVED</code>
+            </div>
+          }
         </div>
-      </div>
+      }
     </div>
   </div>
 </div>
