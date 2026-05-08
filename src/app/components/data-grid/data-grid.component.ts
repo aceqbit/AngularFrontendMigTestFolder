@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface GridRow {
   id: string;
@@ -15,6 +17,8 @@ interface GridRow {
 
 @Component({
   selector: 'app-data-grid',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './data-grid.component.html',
   styleUrls: ['./data-grid.component.css']
 })

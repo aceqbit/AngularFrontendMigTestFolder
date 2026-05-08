@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface WidgetMetric {
   label: string;
@@ -9,6 +10,8 @@ interface WidgetMetric {
 
 @Component({
   selector: 'app-dashboard-widgets',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './dashboard-widgets.component.html',
   styleUrls: ['./dashboard-widgets.component.css']
 })

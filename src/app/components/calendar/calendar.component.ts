@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface CalendarDay {
   date: Date;
@@ -13,6 +14,8 @@ interface CalendarDay {
 
 @Component({
   selector: 'app-calendar',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface TreeNode {
   id: string;
@@ -11,6 +12,8 @@ interface TreeNode {
 
 @Component({
   selector: 'app-tree-view-large',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './tree-view-large.component.html',
   styleUrls: ['./tree-view-large.component.css']
 })

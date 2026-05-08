@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface Resource {
   id: string;
@@ -21,6 +22,8 @@ interface ScheduledEvent {
 
 @Component({
   selector: 'app-event-scheduler',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './event-scheduler.component.html',
   styleUrls: ['./event-scheduler.component.css']
 })

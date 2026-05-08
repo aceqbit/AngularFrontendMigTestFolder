@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface SettingCategory {
   id: string;
@@ -9,6 +11,8 @@ interface SettingCategory {
 
 @Component({
   selector: 'app-settings-panel',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './settings-panel.component.html',
   styleUrls: ['./settings-panel.component.css']
 })

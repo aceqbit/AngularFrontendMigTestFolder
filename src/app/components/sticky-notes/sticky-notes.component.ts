@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface Note {
   id: number;
@@ -15,6 +17,8 @@ interface Note {
 
 @Component({
   selector: 'app-sticky-notes',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sticky-notes.component.html',
   styleUrls: ['./sticky-notes.component.css']
 })

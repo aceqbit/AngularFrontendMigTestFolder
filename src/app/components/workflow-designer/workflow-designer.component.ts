@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface Node {
   id: string;
@@ -16,6 +17,8 @@ interface Connection {
 
 @Component({
   selector: 'app-workflow-designer',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './workflow-designer.component.html',
   styleUrls: ['./workflow-designer.component.css']
 })

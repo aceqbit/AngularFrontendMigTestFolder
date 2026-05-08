@@ -1,4 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  DataGridComponent,
+} from '../data-grid/data-grid.component';
+import {
+  DashboardWidgetsComponent,
+} from '../dashboard-widgets/dashboard-widgets.component';
+import {
+  CalendarComponent,
+} from '../calendar/calendar.component';
+import {
+  AdvancedFormStepperComponent,
+} from '../advanced-form-stepper/advanced-form-stepper.component';
 
 interface Widget {
   id: string;
@@ -12,6 +25,14 @@ interface Widget {
 
 @Component({
   selector: 'app-layout-manager',
+  standalone: true,
+  imports: [
+    CommonModule,
+    DataGridComponent,
+    DashboardWidgetsComponent,
+    CalendarComponent,
+    AdvancedFormStepperComponent,
+  ],
   templateUrl: './layout-manager.component.html',
   styleUrls: ['./layout-manager.component.css']
 })

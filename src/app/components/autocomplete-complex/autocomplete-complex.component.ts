@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface SearchResult {
   id: number;
@@ -11,6 +13,8 @@ interface SearchResult {
 
 @Component({
   selector: 'app-autocomplete-complex',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './autocomplete-complex.component.html',
   styleUrls: ['./autocomplete-complex.component.css']
 })

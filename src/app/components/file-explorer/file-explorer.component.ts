@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface FileNode {
   id: string;
@@ -14,6 +15,8 @@ interface FileNode {
 
 @Component({
   selector: 'app-file-explorer',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './file-explorer.component.html',
   styleUrls: ['./file-explorer.component.css']
 })

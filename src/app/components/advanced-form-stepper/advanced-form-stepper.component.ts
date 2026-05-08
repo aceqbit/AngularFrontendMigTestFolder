@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface FormStep {
   id: number;
@@ -9,6 +11,8 @@ interface FormStep {
 
 @Component({
   selector: 'app-advanced-form-stepper',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './advanced-form-stepper.component.html',
   styleUrls: ['./advanced-form-stepper.component.css']
 })

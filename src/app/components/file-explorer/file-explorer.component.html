@@ -11,32 +11,36 @@
   </div>
 
   <div class="details-panel" *ngIf="selectedFile">
-    <div class="details-header">
-      <div class="icon">{{ selectedFile.type === 'folder' ? '📁' : '📄' }}</div>
-      <h3>{{ selectedFile.name }}</h3>
+    <div class="details-pane" *ngIf="selectedFile">
+      <div class="details-header">
+        <span class="icon">{{ selectedFile.type === 'folder' ? '📁' : '📄' }}</span>
+        <h3>{{ selectedFile.name }}</h3>
+      </div>
+      <div class="details-body">
+        <div class="detail-row">
+          <span class="label">ID:</span>
+          <strong>{{ selectedFile.id }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="label">Size:</span>
+          <strong>{{ formatSize(selectedFile.size) }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="label">Owner:</span>
+          <strong>{{ selectedFile.owner }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="label">Permissions:</span>
+          <code class="perms">{{ selectedFile.permissions }}</code>
+        </div>
+        <div class="detail-row">
+          <span class="label">Last Modified:</span>
+          <strong>{{ selectedFile.modified | date:'medium' }}</strong>
+        </div>
+      </div>
     </div>
-    
-    <div class="metadata-grid">
-      <div class="meta-row">
-        <span>Object ID</span>
-        <strong>{{ selectedFile.id }}</strong>
-      </div>
-      <div class="meta-row">
-        <span>Size</span>
-        <strong>{{ formatSize(selectedFile.size) }}</strong>
-      </div>
-      <div class="meta-row">
-        <span>Owner</span>
-        <strong>{{ selectedFile.owner }}</strong>
-      </div>
-      <div class="meta-row">
-        <span>Permissions</span>
-        <code class="perms">{{ selectedFile.permissions }}</code>
-      </div>
-      <div class="meta-row">
-        <span>Last Modified</span>
-        <strong>{{ selectedFile.modified | date:'medium' }}</strong>
-      </div>
+    <div class="no-selection" *ngIf="!selectedFile">
+      <p>Select a file or folder to see details</p>
     </div>
 
     <!-- Extra heavy decorative data -->

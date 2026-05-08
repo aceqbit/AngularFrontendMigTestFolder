@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 interface ResourceNode {
   id: string;
@@ -11,6 +12,8 @@ interface ResourceNode {
 
 @Component({
   selector: 'app-resource-monitor',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './resource-monitor.component.html',
   styleUrls: ['./resource-monitor.component.css']
 })
