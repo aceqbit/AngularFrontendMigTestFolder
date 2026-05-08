@@ -1,42 +1,62 @@
 <div class="layout-container">
-  <div class="controls glass">
-    <span style="margin-right: 1rem; font-weight: 500; color: var(--text-secondary);">Layout Mode:</span>
-    <button
-      class="mode-btn"
-      [class.active]="layoutMode === 'grid'"
-      (click)="setLayout('grid')">
-      Grid System
-    </button>
-    <button
-      class="mode-btn"
-      [class.active]="layoutMode === 'flex'"
-      (click)="setLayout('flex')">
-      Flex Layout
-    </button>
+  <div class="layout-header">
+    <h2>Dynamic Layout Engine</h2>
+    <div class="controls">
+      <button class="add-widget">+ New Widget</button>
+      <button class="save-layout">Save Configuration</button>
+    </div>
   </div>
 
-  <div class="display-area" [ngClass]="layoutMode === 'grid' ? 'grid-mode' : 'flex-mode'">
-    @for (card of cards; track card) {
-      <div class="glass-card card">
-        <div class="card-header">
-          <span class="card-title">{{ card.title }}</span>
-          <span class="badge" [ngClass]="card.type === 'blue' ? 'badge-blue' : 'badge-purple'">Active</span>
-        </div>
-        <div class="card-body">
-          {{ card.content }}
-        </div>
-        <div class="card-footer">
-          <button class="btn-premium" style="padding: 0.4rem 1rem; font-size: 0.8rem;">Configure</button>
+  <div class="widgets-grid">
+    <div *ngFor="let widget of widgets" 
+         class="widget-card" 
+         [ngClass]="getWidgetSizeClass(widget)"
+         [style.border-top-color]="widget.color">
+      
+      <div class="widget-header">
+        <span class="widget-title">{{ widget.title }}</span>
+        <div class="widget-actions">
+          <button (click)="removeWidget(widget.id)">✕</button>
         </div>
       </div>
-    }
-  </div>
 
-  <!-- Floating Widget -->
-  <div class="floating-widget">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="12" y1="5" x2="12" y2="19"></line>
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-    </svg>
+      <div class="widget-body">
+        <!-- Different rendering based on type to increase complexity -->
+        <ng-container [ngSwitch]="widget.type">
+          <div *ngSwitchCase="'stats'" class="stats-view">
+            <div class="stat-item" *ngFor="let p of widget.dataPoints.slice(0, 4)">
+              <label>{{ p.label }}</label>
+              <div class="value">{{ p.value | number:'1.0-0' }}</div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'chart'" class="chart-view">
+            <div *ngFor="let p of widget.dataPoints.slice(0, 20)" 
+                 class="bar" 
+                 [style.height.%]="p.value / 10">
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'list'" class="list-view">
+            <div *ngFor="let p of widget.dataPoints.slice(0, 10)" class="list-item">
+              <span>Item Ref: {{ p.label }}</span>
+              <strong>{{ p.value | currency }}</strong>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'map'" class="map-view">
+            <div class="map-placeholder">
+              <div class="ping" *ngFor="let i of [1,2,3,4,5]"></div>
+              Geospatial Data Feed Active
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Heavy nested metadata -->
+      <div class="widget-footer">
+        <div class="meta-tag" *ngFor="let i of [1,2,3]">SYS_REF_{{i}}</div>
+      </div>
+    </div>
   </div>
 </div>

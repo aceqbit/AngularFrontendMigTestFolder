@@ -1,24 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+interface Widget {
+  id: string;
+  title: string;
+  type: 'chart' | 'list' | 'stats' | 'map';
+  width: number;
+  height: number;
+  color: string;
+  dataPoints: any[];
+}
 
 @Component({
-    selector: 'app-layout-manager',
-    templateUrl: './layout-manager.component.html',
-    styleUrls: ['./layout-manager.component.css'],
-    standalone: false
+  selector: 'app-layout-manager',
+  templateUrl: './layout-manager.component.html',
+  styleUrls: ['./layout-manager.component.css']
 })
-export class LayoutManagerComponent {
-  layoutMode: 'grid' | 'flex' = 'grid';
+export class LayoutManagerComponent implements OnInit {
+  widgets: Widget[] = [];
+  
+  constructor() { }
 
-  cards = [
-    { title: 'Neural Engine', content: 'Processing real-time data streams with advanced heuristics.', type: 'blue' },
-    { title: 'Cloud Sync', content: 'Seamlessly synchronizing state across multiple edge locations.', type: 'purple' },
-    { title: 'Security Vault', content: 'End-to-end encryption with quantum-resistant algorithms.', type: 'blue' },
-    { title: 'Analytics Pro', content: 'Deep insights powered by machine learning models.', type: 'purple' },
-    { title: 'Global CDN', content: 'Ultra-low latency content delivery at the edge.', type: 'blue' },
-    { title: 'DevOps Flow', content: 'Automated CI/CD pipelines with zero-downtime deploys.', type: 'purple' }
-  ];
+  ngOnInit(): void {
+    this.generateHeavyLayout();
+  }
 
-  setLayout(mode: 'grid' | 'flex') {
-    this.layoutMode = mode;
+  generateHeavyLayout() {
+    const types: ('chart' | 'list' | 'stats' | 'map')[] = ['chart', 'list', 'stats', 'map'];
+    const colors = ['#f87171', '#fbbf24', '#34d399', '#60a5fa', '#818cf8', '#a78bfa', '#f472b6'];
+
+    for (let i = 0; i < 12; i++) {
+      this.widgets.push({
+        id: `widget-${i}`,
+        title: `Dashboard Panel ${i + 1}`,
+        type: types[i % types.length],
+        width: 300 + (Math.random() * 200),
+        height: 200 + (Math.random() * 150),
+        color: colors[i % colors.length],
+        dataPoints: Array.from({ length: 50 }, (_, j) => ({
+          label: `Point ${j}`,
+          value: Math.random() * 1000
+        }))
+      });
+    }
+  }
+
+  removeWidget(id: string) {
+    this.widgets = this.widgets.filter(w => w.id !== id);
+  }
+
+  getWidgetSizeClass(w: Widget): string {
+    if (w.width > 400) return 'large';
+    if (w.width < 350) return 'small';
+    return 'medium';
   }
 }

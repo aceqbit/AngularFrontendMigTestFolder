@@ -5,24 +5,25 @@ interface CalendarDay {
   isToday: boolean;
   isCurrentMonth: boolean;
   events: any[];
+  holiday?: string;
+  lunarPhase?: string;
+  weather?: { temp: number; icon: string };
+  metrics?: { cpu: number; memory: number }; // Stress test data
 }
 
 @Component({
-    selector: 'app-calendar',
-    templateUrl: './calendar.component.html',
-    styleUrls: ['./calendar.component.css'],
-    standalone: false
+  selector: 'app-calendar',
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
   currentDate = new Date();
   days: CalendarDay[] = [];
   weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   
-  mockEvents: any = {
-    '2026-05-15': [{ title: 'Design Review', type: 'blue' }],
-    '2026-05-18': [{ title: 'Sync Meeting', type: 'purple' }, { title: 'Code Push', type: 'blue' }],
-    '2026-05-22': [{ title: 'Deployment', type: 'blue' }]
-  };
+  lunarPhases = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+
+  constructor() { }
 
   ngOnInit() {
     this.generateCalendar();
@@ -40,32 +41,46 @@ export class CalendarComponent implements OnInit {
     const startPadding = firstDay.getDay();
     for (let i = startPadding; i > 0; i--) {
       const date = new Date(year, month, 1 - i);
-      this.days.push(this.createDay(date, false));
+      this.days.push(this.createEnhancedDay(date, false));
     }
     
     // Current month
     for (let i = 1; i <= lastDay.getDate(); i++) {
       const date = new Date(year, month, i);
-      this.days.push(this.createDay(date, true));
+      this.days.push(this.createEnhancedDay(date, true));
     }
     
     // Padding for next month
-    const endPadding = 42 - this.days.length; // 6 rows of 7 days
+    const endPadding = 42 - this.days.length;
     for (let i = 1; i <= endPadding; i++) {
       const date = new Date(year, month + 1, i);
-      this.days.push(this.createDay(date, false));
+      this.days.push(this.createEnhancedDay(date, false));
     }
   }
 
-  createDay(date: Date, isCurrentMonth: boolean): CalendarDay {
-    const dateStr = date.toISOString().split('T')[0];
+  createEnhancedDay(date: Date, isCurrentMonth: boolean): CalendarDay {
     const today = new Date();
+    const d = date.getDate();
+    
     return {
       date,
       isToday: date.toDateString() === today.toDateString(),
       isCurrentMonth,
-      events: this.mockEvents[dateStr] || []
+      events: this.getMockEvents(date),
+      holiday: d % 10 === 0 ? `Holiday Type ${d}` : undefined,
+      lunarPhase: this.lunarPhases[d % 8],
+      weather: { temp: 20 + (d % 15), icon: d % 3 === 0 ? '☀️' : (d % 3 === 1 ? '☁️' : '🌧️') },
+      metrics: { cpu: Math.random() * 100, memory: Math.random() * 100 }
     };
+  }
+
+  getMockEvents(date: Date): any[] {
+    const events = [];
+    const d = date.getDate();
+    if (d % 5 === 0) events.push({ title: 'Critical Review', color: '#ea4335' });
+    if (d % 3 === 0) events.push({ title: 'Deployment Slot', color: '#34a853' });
+    if (d % 7 === 0) events.push({ title: 'System Maintenance', color: '#fbbc04' });
+    return events;
   }
 
   prevMonth() {

@@ -1,76 +1,93 @@
-<div class="dashboard-shell">
-  <!-- Sidebar -->
-  <aside class="sidebar glass">
-    <div class="logo-container">
-      <div class="logo-box">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span class="logo-text">NEURAL<span class="text-gradient">FLOW</span></span>
+<div class="main-shell">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-box"></div>
+      <span>H-ANGULAR V16</span>
     </div>
-
-    <nav class="nav-links">
-      <div class="nav-item" [class.active]="activeView === 'dashboard'" (click)="setView('dashboard')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-        Layout Manager
-      </div>
-      <div class="nav-item" [class.active]="activeView === 'grid'" (click)="setView('grid')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"></path></svg>
-        Premium Grid
-      </div>
-      <div class="nav-item" [class.active]="activeView === 'calendar'" (click)="setView('calendar')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-        Event Calendar
-      </div>
-      <div class="nav-item" [class.active]="activeView === 'workflow'" (click)="setView('workflow')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-        Workflow Designer
+    <nav>
+      <div *ngFor="let s of sections" 
+           class="nav-item" 
+           [class.active]="activeSection === s.id"
+           (click)="setSection(s.id)">
+        <span class="icon">{{ s.icon }}</span>
+        <span class="label">{{ s.label }}</span>
       </div>
     </nav>
+    <div class="sidebar-footer">
+      <div class="load-indicator">
+        <label>DOM WEIGHT</label>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 85%"></div>
+        </div>
+      </div>
+    </div>
   </aside>
 
-  <!-- Main Content -->
-  <main class="main-content">
-    <div class="bg-blob blob-1"></div>
-    <div class="bg-blob blob-2"></div>
+  <main class="content-area">
+    <!-- DASHBOARD SECTION -->
+    <section [hidden]="activeSection !== 'dashboard'">
+      <app-dashboard-widgets></app-dashboard-widgets>
+    </section>
 
-    <header class="top-nav glass">
-      <div class="page-title">
-        @if (activeView === 'dashboard') {
-          <span>Layout Engine / Visualization</span>
-        }
-        @if (activeView === 'grid') {
-          <span>Data Intelligence / Neural Grid</span>
-        }
-        @if (activeView === 'calendar') {
-          <span>Temporal Planning / Scheduler</span>
-        }
-        @if (activeView === 'workflow') {
-          <span>Logic Architecture / Designer</span>
-        }
-      </div>
-      <div class="user-profile">
-        <input type="text" class="search-bar" placeholder="Universal Search...">
-        <div class="avatar" style="width: 38px; height: 38px; background: var(--accent-gradient);">AS</div>
-      </div>
-    </header>
+    <!-- WORKFLOW SECTION -->
+    <section [hidden]="activeSection !== 'workflow'">
+      <app-workflow-designer></app-workflow-designer>
+    </section>
 
-    <div class="content-area">
-      @if (activeView === 'dashboard') {
-        <app-layout-manager></app-layout-manager>
-      }
-      @if (activeView === 'grid') {
-        <app-data-grid></app-data-grid>
-      }
-      @if (activeView === 'calendar') {
-        <app-calendar></app-calendar>
-      }
-      @if (activeView === 'workflow') {
-        <app-workflow-designer></app-workflow-designer>
-      }
-    </div>
+    <!-- CALENDAR SECTION -->
+    <section [hidden]="activeSection !== 'calendar'">
+      <app-calendar></app-calendar>
+      <div style="margin-top: 40px;">
+        <app-date-range-picker></app-date-range-picker>
+      </div>
+    </section>
+
+    <!-- SCHEDULER SECTION -->
+    <section [hidden]="activeSection !== 'scheduler'">
+      <app-event-scheduler></app-event-scheduler>
+    </section>
+
+    <!-- GRID SECTION -->
+    <section [hidden]="activeSection !== 'grid'">
+      <app-data-grid></app-data-grid>
+      <div style="margin-top: 40px;">
+        <app-autocomplete-complex></app-autocomplete-complex>
+      </div>
+    </section>
+
+    <!-- EXPLORER SECTION -->
+    <section [hidden]="activeSection !== 'explorer'">
+      <app-file-explorer></app-file-explorer>
+    </section>
+
+    <!-- STEPPER SECTION -->
+    <section [hidden]="activeSection !== 'stepper'">
+      <app-advanced-form-stepper></app-advanced-form-stepper>
+    </section>
+
+    <!-- TREE SECTION -->
+    <section [hidden]="activeSection !== 'tree'">
+      <app-tree-view-large></app-tree-view-large>
+    </section>
+
+    <!-- NOTES SECTION -->
+    <section [hidden]="activeSection !== 'notes'">
+      <app-sticky-notes></app-sticky-notes>
+    </section>
+
+    <!-- NOTIFICATIONS SECTION -->
+    <section [hidden]="activeSection !== 'notifications'">
+      <app-notification-hub></app-notification-hub>
+    </section>
+
+    <!-- MONITOR SECTION -->
+    <section [hidden]="activeSection !== 'monitor'">
+      <app-resource-monitor></app-resource-monitor>
+    </section>
+
+    <!-- SETTINGS SECTION -->
+    <section [hidden]="activeSection !== 'settings'">
+      <app-settings-panel></app-settings-panel>
+    </section>
   </main>
 </div>

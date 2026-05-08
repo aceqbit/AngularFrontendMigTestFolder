@@ -1,73 +1,104 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 interface Node {
   id: string;
-  name: string;
+  type: 'action' | 'condition' | 'start' | 'end';
   x: number;
   y: number;
-  type: string;
+  label: string;
+  data: any;
 }
 
 interface Connection {
-  fromId: string;
-  toId: string;
+  from: string;
+  to: string;
 }
 
 @Component({
-    selector: 'app-workflow-designer',
-    templateUrl: './workflow-designer.component.html',
-    styleUrls: ['./workflow-designer.component.css'],
-    standalone: false
+  selector: 'app-workflow-designer',
+  templateUrl: './workflow-designer.component.html',
+  styleUrls: ['./workflow-designer.component.css']
 })
-export class WorkflowDesignerComponent {
-  nodes: Node[] = [
-    { id: '1', name: 'Source Data', x: 50, y: 50, type: 'trigger' },
-    { id: '2', name: 'Transform 1', x: 300, y: 150, type: 'action' },
-    { id: '3', name: 'Output Sink', x: 550, y: 50, type: 'action' }
-  ];
+export class WorkflowDesignerComponent implements OnInit {
+  nodes: Node[] = [];
+  connections: Connection[] = [];
+  
+  selectedNodeId: string | null = null;
+  isDragging = false;
+  draggedNode: Node | null = null;
+  
+  constructor() { }
 
-  connections: Connection[] = [
-    { fromId: '1', toId: '2' },
-    { fromId: '2', toId: '3' }
-  ];
-
-  draggingNode: Node | null = null;
-  dragOffset = { x: 0, y: 0 };
-
-  startDrag(event: MouseEvent, node: Node) {
-    this.draggingNode = node;
-    this.dragOffset.x = event.clientX - node.x;
-    this.dragOffset.y = event.clientY - node.y;
-    event.stopPropagation();
+  ngOnInit(): void {
+    this.generateHeavyWorkflow();
   }
 
-  @HostListener('window:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
-    if (this.draggingNode) {
-      this.draggingNode.x = event.clientX - this.dragOffset.x;
-      this.draggingNode.y = event.clientY - this.dragOffset.y;
+  generateHeavyWorkflow() {
+    // Generate a complex web of 40 nodes for stress testing
+    for (let i = 0; i < 40; i++) {
+      const type: ('action' | 'condition' | 'start' | 'end') = 
+        i === 0 ? 'start' : (i === 39 ? 'end' : (i % 5 === 0 ? 'condition' : 'action'));
+      
+      this.nodes.push({
+        id: `node-${i}`,
+        type: type,
+        x: (i % 5) * 250 + 100,
+        y: Math.floor(i / 5) * 150 + 100,
+        label: `${type.toUpperCase()} #${i}`,
+        data: {
+          config: { retry: 3, timeout: 5000, async: true },
+          params: Array.from({ length: 10 }, (_, j) => `Param ${j}`)
+        }
+      });
+
+      if (i > 0) {
+        this.connections.push({ from: `node-${i - 1}`, to: `node-${i}` });
+        if (i % 7 === 0) {
+          this.connections.push({ from: `node-${Math.max(0, i - 5)}`, to: `node-${i}` });
+        }
+      }
     }
   }
 
-  @HostListener('window:mouseup')
+  onNodeMouseDown(event: MouseEvent, node: Node) {
+    event.stopPropagation();
+    this.selectedNodeId = node.id;
+    this.isDragging = true;
+    this.draggedNode = node;
+  }
+
+  onMouseMove(event: MouseEvent) {
+    if (this.isDragging && this.draggedNode) {
+      this.draggedNode.x += event.movementX;
+      this.draggedNode.y += event.movementY;
+    }
+  }
+
   onMouseUp() {
-    this.draggingNode = null;
+    this.isDragging = false;
+    this.draggedNode = null;
   }
 
   getConnectionPath(conn: Connection): string {
-    const fromNode = this.nodes.find(n => n.id === conn.fromId);
-    const toNode = this.nodes.find(n => n.id === conn.toId);
+    const fromNode = this.nodes.find(n => n.id === conn.from);
+    const toNode = this.nodes.find(n => n.id === conn.to);
     
     if (!fromNode || !toNode) return '';
     
-    const x1 = fromNode.x + 180; // Output port
-    const y1 = fromNode.y + 50;
-    const x2 = toNode.x; // Input port
-    const y2 = toNode.y + 50;
+    const x1 = fromNode.x + 100;
+    const y1 = fromNode.y + 30;
+    const x2 = toNode.x;
+    const y2 = toNode.y + 30;
     
-    const cp1x = x1 + (x2 - x1) / 2;
-    const cp2x = x1 + (x2 - x1) / 2;
-    
-    return `M ${x1} ${y1} C ${cp1x} ${y1}, ${cp2x} ${y2}, ${x2} ${y2}`;
+    return `M ${x1} ${y1} C ${x1 + 50} ${y1}, ${x2 - 50} ${y2}, ${x2} ${y2}`;
+  }
+
+  getNodeColor(type: string): string {
+    switch (type) {
+      case 'start': return '#34a853';
+      case 'end': return '#ea4335';
+      case 'condition': return '#fbbc04';
+      default: return '#4285f4';
+    }
   }
 }
