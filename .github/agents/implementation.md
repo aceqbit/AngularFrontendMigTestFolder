@@ -40,4 +40,14 @@ Executing the migration plan by applying code and configuration changes for **on
   - Final v21 compliance and troubleshooting report.
 - **must include** - Generated in `report/implementation_log.md`.
 
----
+### Absolute Rules
+- **100% Migration:** The agent must ensure that every task in the migration plan is executed to completion. No step can be skipped or left partially done.
+- **Zero Breakages:** The primary directive is to avoid introducing any new build errors, test failures, or runtime regressions. The application's stability must be maintained after every action.
+- **Indefinite Loops for Perfection:** If a migration step fails to meet the defined success metrics, the agent will enter a persistent loop. It will automatically revert the failed step, re-evaluate the plan (potentially consulting the planning agent), and re-attempt execution. This cycle continues indefinitely until the step is perfect and all success metrics are satisfied.
+
+### Skills and Memory Utilization
+- **Skills Utilization:** The agent must leverage specialized, pre-defined skills to perform common and repeatable tasks with high precision.
+  - **Example:** A `code-refactor` skill can be invoked to automatically fix deprecated APIs across multiple files, or a `dependency-update` skill can handle `package.json` modifications and installations. This enhances efficiency and dramatically reduces the likelihood of manual error.
+- **Memory Agent Integration:** The implementation agent must continuously interact with the memory system to maintain context and learn from its operations.
+  - **Session Memory:** Used to log its immediate progress, store temporary findings, and maintain state during complex, multi-step refactoring tasks. This ensures that if a step is interrupted, it can be resumed without starting over.
+  - **Repo Memory:** After a successful version migration, the agent records key learnings and successful patterns into the repository-scoped memory. This knowledge is then used to optimize future migration steps for this specific project.
