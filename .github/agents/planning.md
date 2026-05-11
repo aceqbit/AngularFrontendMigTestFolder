@@ -85,20 +85,33 @@ A detailed breakdown of risks identified during assessment:
     - Perform a final build and serve the application.
 
 ### Priority and Time-Based Assessment
-- **Priority Matrix:** Tasks are prioritized based on their impact and urgency. Core update and build-blocking errors are highest priority.
-- **Time Estimation:** Each phase and task is assigned an estimated time for completion. This provides a timeline for the migration, but is subject to change based on unforeseen complexities.
+- **Priority Matrix:** Tasks are prioritized using a MoSCoW-like approach, tailored for migrations:
+    - **Must Have (P0):** Core updates, build-blocking errors, and security vulnerabilities. These are non-negotiable for a version jump.
+    - **Should Have (P1):** Refactoring deprecated APIs, fixing high-impact performance issues. Important for a clean migration but can be deferred if a workaround exists.
+    - **Could Have (P2):** Adopting new optional features, minor code cleanup. Nice-to-haves that improve the codebase but don't block the migration.
+    - **Won't Have (P3):** Out-of-scope changes, major feature rewrites.
+- **Time Estimation:** Each task is assigned an estimated time using a t-shirt sizing model (S, M, L, XL) which translates to a rough hour/day estimate. This provides a flexible timeline that accounts for unforeseen complexities. For example:
+    - **S:** < 2 hours (e.g., simple config change)
+    - **M:** 2-8 hours (e.g., refactoring a single deprecated API across the codebase)
+    - **L:** 1-3 days (e.g., a full version core update and fixing resulting build errors)
+    - **XL:** > 3 days (e.g., major third-party library migration)
 
 ### Success Metrics
-- **Build Success:** The project compiles without any errors.
-- **Test Suite Pass Rate:** All unit and end-to-end tests pass successfully.
-- **No Console Errors:** The application runs in the browser with no console errors at startup or during basic interaction.
-- **Core Functionality Works:** All primary features of the application are functional.
+- **100% Build Success:** The project must compile without any errors using `ng build`. No warnings related to the migration itself should be present.
+- **100% Test Suite Pass Rate:** All unit and end-to-end tests must pass. Test coverage should not decrease.
+- **Zero Regression:** All primary features and critical user flows of the application must be fully functional and visually identical to the pre-migration state.
+- **100% Component, Module, and Import Migration:** All components, modules, and imports must be fully migrated to the target version's standards. This includes:
+    - No more deprecated APIs in use.
+    - All components correctly using modern patterns (e.g., standalone components, new control flow syntax).
+    - All module imports (`NgModule` and ES6 imports) are correct and optimized.
+- **No Console Errors:** The application runs in the browser with a clean console at startup and during interaction with key features.
 
 ### Acceptance Criteria
-- **Version Alignment:** `package.json` shows that all `@angular/*` packages are on the target version.
-- **Application Launch:** The application successfully launches using `ng serve`.
-- **Key User Flows:** A predefined set of critical user workflows can be completed without error.
-- **Automated Control:** The entire process must be executable by an agent with full control over the command line, without requiring any human intervention for prompts or decisions.
+- **Version Alignment:** `package.json` confirms that all `@angular/*` packages and their dependencies are aligned to the exact target version.
+- **Clean Installation:** `npm install` completes without any peer dependency errors (unless explicitly accepted as a low-risk item).
+- **Successful Application Launch:** The application launches successfully using `ng serve` and is accessible in the browser.
+- **Automated Verification:** The entire verification process (build, test, lint) is automated and runs successfully in a CI/CD-like environment.
+- **Full Agent Automation:** The entire migration process is executed by an agent with full, autonomous control over the command line, requiring zero human intervention for prompts, decisions, or error handling.
 
 ### Migration Experience Learnings
 - **Windows Environment:** Be aware of potential file-locking issues with the `node_modules` directory. Plan for a "Clean Sweep" task using `rimraf` as a standard procedure between version jumps to prevent state corruption.
