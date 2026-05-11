@@ -65,4 +65,16 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
   - A section on common, repeatable errors from past migrations.
 - **must include** - Generated in `report/assessment_report.md`.
 
+### Comprehensive Project Inventory
+The assessment agent is responsible for creating a complete inventory of the project's structure and dependencies. This inventory is a critical input for the planning agent.
+
+- **Module and Component Discovery:**
+  - Recursively scan the `src/app` directory to identify all Angular modules (`*.module.ts`) and components (`*.component.ts`).
+  - For each module, list its `declarations`, `imports`, `providers`, and `exports`.
+  - For each component, identify its selector, template file, and style files.
+- **Version and Tooling Analysis:**
+  - **`package.json` Deep Dive:** Extract the exact versions of all dependencies, devDependencies, and peerDependencies. Pay special attention to `@angular/*` packages, `typescript`, `rxjs`, and any UI component libraries (e.g., Angular Material, ng-bootstrap).
+  - **Build Tooling:** Analyze `angular.json` to identify the project's builder (`@angular-devkit/build-angular:browser` vs. `@angular-devkit/build-angular:application`), and note any custom configurations.
+- **Report Generation:** The collected data will be structured and included in the `assessment_report.md` under a new "Project Inventory" section. This provides a single source of truth for the planning agent.
+
 ---

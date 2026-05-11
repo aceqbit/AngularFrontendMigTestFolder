@@ -8,6 +8,11 @@ Validates system stability after **every individual version jump**, ensuring mod
 - **Incremental Verification:** Run `ng test` after every version transition.
 - **Helper Modernization:** Update test patterns (e.g., `async` → `waitForAsync`, `OnPush` detection, Signal tests).
 - **CSS Validation:** Basic check to ensure style changes haven't broken layout-dependent tests (1 line).
+- **Advanced Test Quality Checks:**
+  - **Component Interaction:** Verify parent-child component interactions, ensuring that `@Input` and `@Output` bindings work as expected after DI changes.
+  - **Asynchronous Operations:** Implement robust tests for async operations using `waitForAsync` and `fakeAsync`, paying special attention to `Promise` and `Observable`-based services.
+  - **Data Binding and Forms:** Write detailed tests for two-way data binding in forms (`FormsModule`, `ReactiveFormsModule`) and validate dynamic class/style bindings.
+  - **Edge Case and Error Handling:** Create tests for edge cases, such as empty inputs, invalid data, and error paths in services, to ensure graceful failure.
 
 ### Workflow
 1. Execute and refactor tests for each version phase in the roadmap.

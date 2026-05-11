@@ -14,6 +14,9 @@ Specialized agent for style modernization and migration across Angular version j
   - **Calendar and Scheduler:** Analyze styles for event schedulers, including extended data displays within calendar cells and date range pickers. Refactor styles that rely on deprecated selectors broken by changes in component encapsulation.
   - **Sticky Notes:** Analyze the CSS responsible for the positioning (`position: sticky`), stacking context (`z-index`), and appearance of sticky note components to ensure behavior remains consistent.
   - **Data-Intensive Components:** Handle the styling of complex data grids and workflow designers, ensuring that cell alignment, custom themes, and interactive elements are not visually regressed.
+  - **Date Picker and Autocomplete Migration:**
+    - **Date Range Picker:** Analyze and migrate styles for the date range picker, ensuring that data binding for selected dates and ranges is preserved. Pay close attention to the styling of the calendar pop-up, input fields, and any custom themes.
+    - **Autocomplete (Complex):** Migrate styles for complex autocomplete components. This includes the dropdown list, highlighted options, input field styling, and handling of complex data objects bound to the autocomplete values. Ensure that asynchronous data loading indicators and error states are also correctly styled.
 - **Shadow Piercing Audit:** Identify and refactor legacy shadow-piercing descendants (`/deep/`, `>>>`) to modern `::ng-deep` or CSS Custom Properties.
 - **Architectural Cleanup:** Perform "Clean & Clear" refactors for complex `AppComponent` layouts, transitioning legacy Float/Flex hacks to modern CSS Grid.
 - **Asset Path Correction:** Resolve relative asset paths (backgrounds, fonts) that break during the v16→v17 builder transition.

@@ -98,6 +98,29 @@ A detailed breakdown of risks identified during assessment:
 
 ### Success Metrics
 - **100% Build Success:** The project must compile without any errors using `ng build`. No warnings related to the migration itself should be present.
+- **Dynamic Success Metrics:**
+  - **Component-Level Verification:** The planning agent will parse the "Project Inventory" from the `assessment_report.md`. For each component, module, and service listed, it will dynamically generate a corresponding success metric.
+  - **Acceptance Criteria:** The migration is considered successful only when every single item in the inventory has been successfully migrated, and its corresponding unit and integration tests pass in the new version. This ensures that no part of the application is left behind.
+
+### Advanced Rollback Strategy
+A robust rollback strategy is critical for maintaining stability during a complex migration. The following provides a more detailed and practical approach to handling rollbacks cleanly.
+
+- **Granular Commits:** Each migration step (e.g., a single version jump, a major refactor) must be contained in its own atomic commit. This allows for precise rollbacks without losing unrelated work.
+- **Branching Model:**
+  - **`migration` branch:** All migration work should be done on a dedicated feature branch.
+  - **`checkpoint` tags:** After each successful version jump (e.g., `v17-stable`), create a lightweight git tag. This provides an easy-to-remember, stable point to revert to.
+- **Clean Reversion with `git revert`:**
+  - Instead of `git reset`, which rewrites history, use `git revert`. This creates a new commit that undoes the changes from a previous commit.
+  - **Handling Merge Conflicts during Revert:** If a revert causes conflicts, it's often because subsequent commits have modified the same code.
+    - **Strategy:** Do not panic. Carefully examine the conflicts. It's often safer to abort the revert (`git revert --abort`), create a new branch from the last stable tag, and re-apply the successful changes manually, leaving out the problematic commit.
+- **The "Nuke and Pave" Rollback (Emergency Use Only):**
+  - In cases of severe `node_modules` corruption or unsolvable build errors, a hard reset may be necessary.
+    - 1. **Stash any valuable, uncommitted changes:** `git stash`
+    - 2. **Hard reset to the last known good tag:** `git reset --hard v17-stable`
+    - 3. **Clean the workspace:** `rimraf node_modules package-lock.json dist`
+    - 4. **Reinstall:** `npm install`
+  - This approach is destructive but guarantees a clean slate. It should be used as a last resort when `git revert` is too complex.
+- **Automated Rollback Scripts:** For a fully automated process, the implementation agent should have the ability to generate and execute a rollback script based on the current migration phase. The script would use the `checkpoint` tags to revert the codebase to the last stable state.
 - **100% Test Suite Pass Rate:** All unit and end-to-end tests must pass. Test coverage should not decrease.
 - **Zero Regression:** All primary features and critical user flows of the application must be fully functional and visually identical to the pre-migration state.
 - **100% Component, Module, and Import Migration:** All components, modules, and imports must be fully migrated to the target version's standards. This includes:
