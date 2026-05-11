@@ -11,12 +11,14 @@ Records all migration steps and architectural refactors for future reference, en
 
 ### Workflow
 1. Build the documentation incrementally as each version jump is validated.
-2. Summarize final v21 state and any troubleshooting performed.
+2. **Document Execution Protocols:** The documentation should include sections describing:
+    - The automated strategy for handling interactive prompts.
+    - The clean and concise commit message format used for all changes.
+    - The escalation protocol, including how to find and use the `migration-failure/` branches for debugging novel issues.
+3. Summarize final v21 state and any troubleshooting performed.
 
 ### Outputs
 - **Migration Documentation (Markdown):** 
   - Comprehensive history of the v16→v21 technical journey.
   - Lessons learned and adopted patterns summarized by phase.
 - **must include** - Generated in `docs/documentation.md`.
-
----

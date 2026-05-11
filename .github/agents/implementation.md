@@ -39,12 +39,27 @@ Executing the migration plan by applying code and configuration changes for **on
 
 ### Absolute Rules
 - **100% Migration & Full Automation:** The agent must ensure that every task in the migration plan is executed to completion. The entire process, from version update to dependency installation and verification, must be automated without requiring any user input. The agent must take complete control of the command line interface.
+- **Automated Prompt Handling:** For any interactive CLI prompts that are not simple y/n questions (e.g., package manager choices, configuration selections), the agent must have a strategy to proceed without user input. The default strategy is to always select the option marked as "recommended" or "default". If no such option exists, it will select the first option in the list. This choice must be logged.
 - **Zero Breakages:** The primary directive is to avoid introducing any new build errors, test failures, or runtime regressions. The application's stability must be maintained after every action.
-- **Indefinite Loops for Perfection:** If a migration step fails, the agent will enter a persistent loop. It will automatically revert the failed step, re-evaluate the plan, and re-attempt execution using a different strategy (e.g., using `--force` or a clean install). This cycle continues indefinitely until the step is perfect.
+- **Indefinite Loops for Perfection:** If a migration step fails, the agent will enter a persistent loop. It will automatically revert the failed step, re-evaluate the plan, and re-attempt execution using a different strategy (e.g., using `--force` or a clean install). This cycle continues until the step is perfect.
+- **Escalation Protocol for Unsolvable Problems:** To prevent true infinite loops, if a recovery attempt for the exact same error fails more than 3 times using different strategies, the agent will trigger the escalation protocol:
+    1.  **Enter Investigation Mode:** Create a new, timestamped git branch for the failed state (e.g., `migration-failure/v17-to-v18-some-error-20260511T103000Z`).
+    2.  **Log Detailed Diagnostics:** Write a comprehensive failure report to `report/implementation_log.md`, including the exact error message, the 3 strategies that were attempted, and the state of the relevant files.
+    3.  **Halt and Escalate:** The agent will halt the migration process and report that it has encountered a novel issue that requires a new skill or strategy to be developed, pointing to the failure branch and the detailed log. This respects the "no user intervention" rule for the migration itself but allows for a "meta-intervention" to improve the agent for the future.
+
+### Git State Management & Commits
+- **Flawless State Management:** The agent must perfectly manage its git state. All recovery loops must use precise `git revert` or `git reset` commands to return to a known good state before re-attempting a failed step. Stashes should be used carefully and always cleaned up.
+- **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.
+- **Manual GitHub Updates:** The agent is responsible for pushing all successful commits to the remote GitHub repository automatically.
 
 ### Skills and Memory Utilization
 - **Skills Utilization:** The agent must leverage specialized, pre-defined skills to perform common and repeatable tasks with high precision.
   - **Example:** A `dependency-update` skill will handle `package.json` modifications, automatically using flags like `--force` or `--legacy-peer-deps`. A `clean-workspace` skill will execute the `rimraf` and `npm cache` commands. A `refactor-standalone` skill will fix `NG6008` errors.
-- **Memory Agent Integration:** The implementation agent must continuously interact with the memory system to maintain context and learn from its operations.
+- **Skill Discovery:** Agents are not hardcoded with a list of skills. They are instructed to consult the `skills/` directory to discover and utilize available skills. When a new `.skill.md` file is added, all agents can dynamically discover and use it without needing to be reconfigured.
+- **Memory Agent Integration & Update Cycle:**
+  - The implementation agent must continuously interact with the memory system to maintain context and learn from its operations.
+  - **Mandatory Memory Update:** After a novel error is successfully resolved, the agent's workflow **must** include this final step:
+    1.  Append a summary of the error and the successful solution to `memory/migration-notes.md`.
+    2.  Trigger a `memory-update` process to propagate this new knowledge to all specialized `.mem.md` files, ensuring the entire system learns from the experience immediately.
   - **Session Memory:** Used to log its immediate progress and maintain state.
-  - **Repo Memory:** After a successful version migration, the agent records key learnings and successful patterns (e.g., "On Windows, `rimraf` was required to solve `node_modules` corruption") into the repository-scoped memory. This knowledge is then used to optimize future migration steps.
+  - **Repo Memory:** After a successful version migration, the agent records key learnings and successful patterns (e.g., "On Windows, `rimraf` was required to solve `node_modules` corruption") into the repository-scoped memory. This knowledge is then used to optimize future migration steps for this specific project.

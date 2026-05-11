@@ -11,7 +11,8 @@ Validates system stability after **every individual version jump**, ensuring mod
 
 ### Workflow
 1. Execute and refactor tests for each version phase in the roadmap.
-2. Address v21 specific test failures related to subpath resolution or DI changes.
+2. **Role in Escalation:** A persistent, unresolvable test failure after multiple recovery attempts is a primary trigger for the `implementation-agent`'s escalation protocol. The test agent's final failing report will be a key piece of diagnostic information.
+3. Address v21 specific test failures related to subpath resolution or DI changes.
 
 ### Outputs
 - **Test Status Log:** Phase-by-phase pass/fail result audit.

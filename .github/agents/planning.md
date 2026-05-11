@@ -123,8 +123,11 @@ A detailed breakdown of risks identified during assessment:
 The final output is the `migration_plan.md`, which includes:
 - **Executive Summary:** A high-level overview of the migration goals and timeline.
 - **Phased Execution Plan:** A detailed, ordered list of tasks, grouped by phase, with dependencies and validation criteria for each.
+- **Contingency Planning:** The plan must now also include contingencies for:
+    - **Interactive Prompts:** Note which steps might involve interactive prompts and define the default selection strategy.
+    - **Potential Escalation:** Acknowledge the escalation protocol and define what constitutes a "novel error" that would trigger it.
 
 ### Rollback Capability
 - **Mechanism:** If any phase of the migration fails catastrophically, the agent must have the capability to revert the codebase to its previous state. This is achieved by using Git to reset the changes.
 - **Trigger:** A failure is defined as an unresolvable build error or a critical test failure that cannot be fixed within a predefined time limit.
-- **Looping for Success:** If a rollback occurs, the process does not terminate. The agent will re-evaluate the failed step, adjust the plan, and re-attempt the migration. This loop continues until the migration for that version is successfully achieved.
+- **Looping for Success:** If a rollback occurs, the process does not terminate. The agent will re-evaluate the failed step, adjust the plan, and re-attempt the migration. This loop continues until the migration for that version is successfully achieved or the escalation protocol is triggered.
