@@ -35,11 +35,14 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
 - **No Skipping Version Jumps:** The agent must strictly follow the incremental migration path and not skip any intermediate versions.
 
 ### Workflow
-1. **Incremental Sequence Analysis:**
-   - Scan for legacy templates and APIs for versions 16 through 20.
-   - Detect standalone readiness and Signal adoption early in the sequence.
-   - Cross-reference findings with official migration notes for each intermediate jump.
-   - **Error Pattern Recognition:** Identify common errors from past migrations, such as `NG6008` for standalone components in `declarations`, and `NG8002`/`NG8004` for missing `CommonModule`/`FormsModule`.
+1. **Pre-flight Checks & Analysis:**
+   - **Bootstrapping Validation:** Scan `src/main.ts` to identify the bootstrapping method (`bootstrapModule` vs. `bootstrapApplication`). Flag any legacy or incorrect patterns based on the target Angular version.
+   - **`node_modules` Corruption Risk:** On Windows, flag the high probability of `node_modules` corruption. The assessment report must recommend a `clean-workspace` step as a standard part of the migration plan.
+   - **Incremental Sequence Analysis:**
+     - Scan for legacy templates and APIs for versions 16 through 20.
+     - Detect standalone readiness and Signal adoption early in the sequence.
+     - Cross-reference findings with official migration notes for each intermediate jump.
+     - **Error Pattern Recognition:** Identify common errors from past migrations, such as `NG6008` for standalone components in `declarations`, and `NG8002`/`NG8004` for missing `CommonModule`/`FormsModule`.
 2. **Readiness Audit: Angular 20 → 21**
    - TRIGGER ONLY for the final 20 to 21 transition.
    - **MANDATORY CHECKS (Detection Focus):**
@@ -56,6 +59,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
 ### Outputs
 - **Migration Assessment Report (Markdown):** 
   - Incremental version roadmap and per-phase risks.
+  - **Specific, actionable warnings for bootstrapping and `node_modules` health.**
   - Minimal summary of CSS architectural risks.
   - Specialized v21 readiness pre-flight checklist.
   - A section on common, repeatable errors from past migrations.

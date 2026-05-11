@@ -16,10 +16,11 @@ Executing the migration plan by applying code and configuration changes for **on
 1. **Incremental Loop (v16 → v20):**
    - Apply refactors and update `package.json` for target intermediate version using `ng update`.
    - **Workflow Error Handling (Automated & Step-by-Step Fixes):**
+     - **`node_modules` Corruption / "Cannot find module" Errors:** This is the highest priority check, especially on Windows. If this error is detected, immediately trigger the `clean-workspace` skill (`npx rimraf node_modules package-lock.json`, `npm cache clean --force`, `npm install`). Halt other processes until this is complete.
+     - **Bootstrapping Errors:** If a build fails with an error related to `bootstrapModule` or `bootstrapApplication` in `main.ts`, trigger a `refactor-bootstrapping` skill to analyze `main.ts` and apply the correct pattern for the target version.
      - **Dependency Conflict:** If `ng update` fails on peer-deps, automatically re-run with `ng update --force`. If that fails, use `npm install --legacy-peer-deps`. Document which flag was used.
-     - **Build Failure:** If a build fails, automatically revert the last commit. Analyze the error (e.g., standalone component `NG6008`, template `NG8002`/`NG8004`). Apply targeted fixes (e.g., moving components to `imports`, adding `CommonModule`/`FormsModule`). Re-attempt the build before proceeding.
-     - **CLI Errors:** Log all CLI migration tool failures. Note specific errors like "Cannot find module" which often point to dependency issues.
-     - **Windows `node_modules` Corruption:** As a primary troubleshooting step on Windows, if "Cannot find module" errors occur, automatically execute `npx rimraf node_modules package-lock.json`, then `npm cache clean --force`, and finally `npm install`.
+     - **Build Failure:** If a build fails with a known error pattern (e.g., `NG6008`), automatically trigger the corresponding skill (e.g., `refactor-standalone`). If the error is unknown, log it and attempt a generic rollback.
+     - **CLI Errors:** Log all CLI migration tool failures.
      - **Asset Mapping:** If dev server fails, verify style/script links in `angular.json` for invalid entries.
    - Run `ng build` to verify every individual jump.
 2. **Targeted v21 Execution & Troubleshooting**
