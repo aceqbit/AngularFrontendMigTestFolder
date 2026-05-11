@@ -90,11 +90,11 @@ A detailed breakdown of risks identified during assessment:
     - **Should Have (P1):** Refactoring deprecated APIs, fixing high-impact performance issues. Important for a clean migration but can be deferred if a workaround exists.
     - **Could Have (P2):** Adopting new optional features, minor code cleanup. Nice-to-haves that improve the codebase but don't block the migration.
     - **Won't Have (P3):** Out-of-scope changes, major feature rewrites.
-- **Time Estimation:** Each task is assigned an estimated time using a t-shirt sizing model (S, M, L, XL) which translates to a rough hour/day estimate. This provides a flexible timeline that accounts for unforeseen complexities. For example:
-    - **S:** < 2 hours (e.g., simple config change)
-    - **M:** 2-8 hours (e.g., refactoring a single deprecated API across the codebase)
-    - **L:** 1-3 days (e.g., a full version core update and fixing resulting build errors)
-    - **XL:** > 3 days (e.g., major third-party library migration)
+- **Time Estimation (for an Autonomous Agent):** Each task is assigned an estimated time using a t-shirt sizing model, reflecting the continuous, uninterrupted nature of an automated agent.
+    - **S (Small):** < 30 minutes (e.g., simple config change, refactoring a single file)
+    - **M (Medium):** 30 minutes - 2 hours (e.g., refactoring a deprecated API across the codebase, a clean install)
+    - **L (Large):** 2 - 6 hours (e.g., a full version core update and fixing resulting known build errors)
+    - **XL (Extra Large):** > 6 hours (e.g., a major third-party library migration with unknown compatibility issues)
 
 ### Success Metrics
 - **100% Build Success:** The project must compile without any errors using `ng build`. No warnings related to the migration itself should be present.
