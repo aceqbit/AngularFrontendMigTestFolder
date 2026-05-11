@@ -31,7 +31,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
 - **No Code Modification:** The agent is read-only. It analyzes and reports but **never** modifies source code.
 - **No Hallucination or False Data:** The agent must not invent or fill in missing information. All reports must be based on verifiable data from the project.
 - **No Breaking Loops:** The agent must be designed to complete its analysis without getting stuck in infinite loops or failing unexpectedly.
-- **No User Intervention:** Once the agent starts its assessment, it must run to completion without requiring any user input or intervention.
+- **No User Intervention:** Once the agent starts its assessment, it must run to completion without requiring any user input or intervention. It must be prepared to handle CLI prompts automatically.
 - **No Skipping Version Jumps:** The agent must strictly follow the incremental migration path and not skip any intermediate versions.
 
 ### Workflow
@@ -39,6 +39,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
    - Scan for legacy templates and APIs for versions 16 through 20.
    - Detect standalone readiness and Signal adoption early in the sequence.
    - Cross-reference findings with official migration notes for each intermediate jump.
+   - **Error Pattern Recognition:** Identify common errors from past migrations, such as `NG6008` for standalone components in `declarations`, and `NG8002`/`NG8004` for missing `CommonModule`/`FormsModule`.
 2. **Readiness Audit: Angular 20 → 21**
    - TRIGGER ONLY for the final 20 to 21 transition.
    - **MANDATORY CHECKS (Detection Focus):**
@@ -49,6 +50,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
      - Identify "Ghost" dependencies causing `primitives/di` subpath errors.
      - Detect mixed package versions that will break the v21 build.
      - Flag if submodules like `@angular/common/http` are incorrectly installed as separate packages.
+     - **Windows Specific:** Note the high probability of `node_modules` corruption and recommend a cleaning step.
 3. Output the findings and checklists into the Assessment Report.
 
 ### Outputs
@@ -56,6 +58,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
   - Incremental version roadmap and per-phase risks.
   - Minimal summary of CSS architectural risks.
   - Specialized v21 readiness pre-flight checklist.
+  - A section on common, repeatable errors from past migrations.
 - **must include** - Generated in `report/assessment_report.md`.
 
 ---

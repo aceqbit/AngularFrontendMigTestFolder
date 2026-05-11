@@ -10,44 +10,40 @@ Executing the migration plan by applying code and configuration changes for **on
 - **CSS Execution:** Apply minimal style refactors required for builder compatibility (1 line).
 - **Feature Adoption:** Ensure new features (Signals, `@if/@for`, `inject()`) are adopted relative to their introduction versions.
 - **Workflow Enforcement:** Strictly execute the v16 → v17 → ... → v21 path; never skip a version.
+- **Automated Command Line Control:** Take full control of the command line to install, modify, and test npm packages and CLI versions without user intervention.
 
 ### Workflow
 1. **Incremental Loop (v16 → v20):**
-   - Apply refactors and update `package.json` for target intermediate version.
-   - **Workflow Error Handling (Step-by-Step Fixes):**
-     - **Dependency Conflict:** If `ng update` fails on peer-deps, use `--force` or `--legacy-peer-deps`.
-     - **Build Failure:** Revert, fix logical errors in templates/code, and rebuild before proceeding.
-     - **CLI Errors:** Log all CLI migration tool failures against manual step references.
+   - Apply refactors and update `package.json` for target intermediate version using `ng update`.
+   - **Workflow Error Handling (Automated & Step-by-Step Fixes):**
+     - **Dependency Conflict:** If `ng update` fails on peer-deps, automatically re-run with `ng update --force`. If that fails, use `npm install --legacy-peer-deps`. Document which flag was used.
+     - **Build Failure:** If a build fails, automatically revert the last commit. Analyze the error (e.g., standalone component `NG6008`, template `NG8002`/`NG8004`). Apply targeted fixes (e.g., moving components to `imports`, adding `CommonModule`/`FormsModule`). Re-attempt the build before proceeding.
+     - **CLI Errors:** Log all CLI migration tool failures. Note specific errors like "Cannot find module" which often point to dependency issues.
+     - **Windows `node_modules` Corruption:** As a primary troubleshooting step on Windows, if "Cannot find module" errors occur, automatically execute `npx rimraf node_modules package-lock.json`, then `npm cache clean --force`, and finally `npm install`.
      - **Asset Mapping:** If dev server fails, verify style/script links in `angular.json` for invalid entries.
    - Run `ng build` to verify every individual jump.
 2. **Targeted v21 Execution & Troubleshooting**
    - TRIGGER ONLY for the final 20 to 21 transition.
    - **STEP-BY-STEP SOLUTION (Execution Focus):**
-     - Force align all `@angular/*` packages to exact versions.
-     - Upgrade TypeScript to 5.9.3: `npm install typescript@5.9.3 --save-dev --force`.
-     - **Clean Sweep:** `Remove-Item node_modules; Remove-Item package-lock.json; npm install --force --legacy-peer-deps`.
+     - Force align all `@angular/*` packages to exact versions using `ng update @angular/core@21 @angular/cli@21 --force`.
+     - Upgrade TypeScript to the required version for Angular 21 (e.g., `npm install typescript@~5.9.3 --save-dev --force`).
+     - **Clean Sweep:** Execute `npx rimraf node_modules package-lock.json`, then `npm cache clean --force`, followed by `npm install --force --legacy-peer-deps`. This is a mandatory, automated step.
    - **Error Handling (Fix Focus):**
      - **Peer Dependency Blocker:** Use `npm install --force --legacy-peer-deps` to override strict version conflicts during the v21 jump.
-     - **DI Resolution Failure:** If `core/primitives/di` errors persist, verify no legacy core packages remain in sub-folders or local cache.
+     - **DI Resolution Failure:** If `core/primitives/di` errors persist, the "Clean Sweep" process should be re-triggered automatically.
      - **Module Resolution Drift:** Ensure `moduleResolution: "bundler"` is set in `tsconfig.json` to enable correct exports detection.
      - **Ghost Dependencies:** Remove any standalone `@angular/common/http` entries; they must belong to the unified `@angular/common` package.
    - **Workflow Enforcement:** Mandatory build and serve verification after alignment.
 3. Log all actions and resulting build statuses.
 
-### Outputs
-- **Implementation Action Log:**
-  - Audited history of every intermediate version build result.
-  - Final v21 compliance and troubleshooting report.
-- **must include** - Generated in `report/implementation_log.md`.
-
 ### Absolute Rules
-- **100% Migration:** The agent must ensure that every task in the migration plan is executed to completion. No step can be skipped or left partially done.
+- **100% Migration & Full Automation:** The agent must ensure that every task in the migration plan is executed to completion. The entire process, from version update to dependency installation and verification, must be automated without requiring any user input. The agent must take complete control of the command line interface.
 - **Zero Breakages:** The primary directive is to avoid introducing any new build errors, test failures, or runtime regressions. The application's stability must be maintained after every action.
-- **Indefinite Loops for Perfection:** If a migration step fails to meet the defined success metrics, the agent will enter a persistent loop. It will automatically revert the failed step, re-evaluate the plan (potentially consulting the planning agent), and re-attempt execution. This cycle continues indefinitely until the step is perfect and all success metrics are satisfied.
+- **Indefinite Loops for Perfection:** If a migration step fails, the agent will enter a persistent loop. It will automatically revert the failed step, re-evaluate the plan, and re-attempt execution using a different strategy (e.g., using `--force` or a clean install). This cycle continues indefinitely until the step is perfect.
 
 ### Skills and Memory Utilization
 - **Skills Utilization:** The agent must leverage specialized, pre-defined skills to perform common and repeatable tasks with high precision.
-  - **Example:** A `code-refactor` skill can be invoked to automatically fix deprecated APIs across multiple files, or a `dependency-update` skill can handle `package.json` modifications and installations. This enhances efficiency and dramatically reduces the likelihood of manual error.
+  - **Example:** A `dependency-update` skill will handle `package.json` modifications, automatically using flags like `--force` or `--legacy-peer-deps`. A `clean-workspace` skill will execute the `rimraf` and `npm cache` commands. A `refactor-standalone` skill will fix `NG6008` errors.
 - **Memory Agent Integration:** The implementation agent must continuously interact with the memory system to maintain context and learn from its operations.
-  - **Session Memory:** Used to log its immediate progress, store temporary findings, and maintain state during complex, multi-step refactoring tasks. This ensures that if a step is interrupted, it can be resumed without starting over.
-  - **Repo Memory:** After a successful version migration, the agent records key learnings and successful patterns into the repository-scoped memory. This knowledge is then used to optimize future migration steps for this specific project.
+  - **Session Memory:** Used to log its immediate progress and maintain state.
+  - **Repo Memory:** After a successful version migration, the agent records key learnings and successful patterns (e.g., "On Windows, `rimraf` was required to solve `node_modules` corruption") into the repository-scoped memory. This knowledge is then used to optimize future migration steps.

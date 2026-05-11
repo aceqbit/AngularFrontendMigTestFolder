@@ -98,6 +98,12 @@ A detailed breakdown of risks identified during assessment:
 - **Version Alignment:** `package.json` shows that all `@angular/*` packages are on the target version.
 - **Application Launch:** The application successfully launches using `ng serve`.
 - **Key User Flows:** A predefined set of critical user workflows can be completed without error.
+- **Automated Control:** The entire process must be executable by an agent with full control over the command line, without requiring any human intervention for prompts or decisions.
+
+### Migration Experience Learnings
+- **Windows Environment:** Be aware of potential file-locking issues with the `node_modules` directory. Plan for a "Clean Sweep" task using `rimraf` as a standard procedure between version jumps to prevent state corruption.
+- **Bootstrapping:** The `main.ts` file is a critical point of failure. Ensure the bootstrapping method (`bootstrapModule` vs. `bootstrapApplication`) is correct for the target Angular version and architecture (module-based vs. standalone).
+- **Standalone Components:** A common error source is the incorrect declaration of standalone components. They must be in the `imports` array of an `NgModule` or the component they are used in, not `declarations`. Plan for a verification step to check this.
 - **Final Report:** The `implementation_log.md` is generated and shows a successful migration.
 
 ### Final Report and Execution Plan
