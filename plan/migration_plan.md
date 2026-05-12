@@ -1,72 +1,56 @@
-# Migration Plan: Angular 16 to 21
+# Angular Migration Plan: v18 to v19
 
-This plan outlines the steps to migrate the Angular application from version 16 to 21.
+This document outlines the detailed plan for migrating the application from Angular version 18 to version 19.
 
-## Phase 1: Migration from Angular 16 to 17
+## 1. Pre-Migration Analysis
 
-- **Dependencies:**
-    - Update `@angular/core`, `@angular/common`, `@angular/compiler`, `@angular/forms`, `@angular/platform-browser`, `@angular/platform-browser-dynamic`, `@angular/router` to version 17.
-    - Update `@angular/cli` to version 17.
-    - Update `@angular-devkit/build-angular` to version 17.
-- **Manual Step Reference:**
-    - Angular 17 update guide: [https://update.angular.io/?v=16.0-17.0](https://update.angular.io/?v=16.0-17.0)
-- **Estimated Effort:** 2 hours
+- **Objective:** Verify the current state of the project and ensure it is ready for the v19 update.
+- **Tasks:**
+    - Review `package.json` to confirm all `@angular/*` packages are on version 18.
+    - Run `ng build` and `ng test` to ensure the project is in a stable state.
 - **Validation Criteria:**
-    - `ng build` completes successfully.
-    - `ng test` completes successfully.
-    - Application runs without errors.
+    - All Angular packages are at `~18.0.0`.
+    - The project builds without errors.
+    - All tests pass.
 
-## Phase 2: Migration from Angular 17 to 18
+## 2. Core Migration to Angular v19
 
-- **Dependencies:**
-    - Update all `@angular/*` packages to version 18.
-- **Manual Step Reference:**
-    - Angular 18 update guide: [https://update.angular.io/?v=17.0-18.0](https://update.angular.io/?v=17.0-18.0)
-- **Estimated Effort:** 1 hour
+- **Objective:** Update the core framework and CLI to version 19.
+- **Tasks:**
+    1.  **Run `ng update`:**
+        -   **Command:** `ng update @angular/core@19 @angular/cli@19`
+        -   **Description:** This command will update the core Angular packages and apply automated migrations.
+        -   **Estimated Effort:** Medium
+    2.  **Clean Install:**
+        -   **Command:** `rm -rf node_modules && npm install`
+        -   **Description:** Perform a clean installation of dependencies to avoid state corruption.
+        -   **Estimated Effort:** Small
 - **Validation Criteria:**
+    - `package.json` reflects `@angular/*` packages at `~19.0.0`.
+    - `npm install` completes without errors.
     - `ng build` completes successfully.
-    - `ng test` completes successfully.
-    - Application runs without errors.
 
-## Phase 3: Migration from Angular 18 to 19
+## 3. Post-Migration Refactoring and Validation
 
-- **Dependencies:**
-    - Update all `@angular/*` packages to version 19.
-- **Manual Step Reference:**
-    - Angular 19 update guide.
-- **Estimated Effort:** 1 hour
+- **Objective:** Address any breaking changes and adopt new v19 features.
+- **Tasks:**
+    1.  **Adopt Signal-based Components (Optional):**
+        -   **Description:** Identify a non-critical component and refactor it to use the new Signal-based component architecture. This is a good opportunity to learn the new pattern.
+        -   **Estimated Effort:** Small
+    2.  **Full Test Suite Execution:**
+        -   **Command:** `ng test`
+        -   **Description:** Run the entire test suite to catch any regressions.
+        -   **Estimated Effort:** Small
 - **Validation Criteria:**
-    - `ng build` completes successfully.
-    - `ng test` completes successfully.
-    - Application runs without errors.
+    - The refactored component works as expected.
+    - All unit and end-to-end tests pass.
 
-## Phase 4: Migration from Angular 19 to 20
+## 4. Finalization
 
-- **Dependencies:**
-    - Update all `@angular/*` packages to version 20.
-- **Manual Step Reference:**
-    - Angular 20 update guide.
-- **Estimated Effort:** 1 hour
+- **Objective:** Finalize the migration and document the outcome.
+- **Tasks:**
+    - Create a `implementation_log.md` to document the steps taken and any issues encountered.
+    - Commit the changes to version control with a clear message (e.g., "feat: upgrade to Angular v19").
 - **Validation Criteria:**
-    - `ng build` completes successfully.
-    - `ng test` completes successfully.
-    - Application runs without errors.
-
-## Phase 5: Migration from Angular 20 to 21
-
-- **Dependencies:**
-    - Update all `@angular/*` packages to version 21.
-    - Update TypeScript to version 5.9.3.
-- **Manual Step Reference:**
-    - Angular 21 update guide.
-- **Estimated Effort:** 2 hours
-- **Validation Criteria:**
-    - `ng build` completes successfully.
-    - `ng test` completes successfully.
-    - Application runs without errors.
-- **v21 Final Transition Roadmap:**
-    1.  Align all `@angular/*` packages to the exact version.
-    2.  Upgrade TypeScript to 5.9.3.
-    3.  Remove `node_modules` and `package-lock.json`.
-    4.  Run `npm install`.
-    5.  Run `ng build`.
+    - The `implementation_log.md` is complete.
+    - The code is committed and pushed to the repository.
