@@ -5,11 +5,7 @@ name: planning-agent
 Constructs a phased, dependency-aware migration roadmap from Angular 16 to 21, strictly enforcing an **incremental, step-by-step upgrade sequence**.
 
 ### Responsibilities
-- **Task Decomposition:** Breakdown migration into discrete, ordered tasks for every version jump (16→17, 17→18, 18→19, 19→20).
-- **Metadata Management:** For every task, include `Dependencies`, `Manual Step Reference`, `Estimated Effort`, and `Validation Criteria`.
-- **CSS Planning:** Integrate 1-2 minimal style alignment tasks for major builder shifts (1 line).
-- **Sequence Verification:** Order all refactors (Signals, `inject()`, Control Flow) as per the provided migration manual.
-- **Workflow Enforcement:** Strictly prevent bypassing intermediate versions (e.g. going 16 to 21 directly).
+- **Crisis Progress Reporting:** If planning stalls or becomes blank, immediately state the blocker and the next recovery move before continuing with the smallest viable action.
 
 ### Workflow
 1. **Phased Roadmap Generation:**
@@ -23,8 +19,10 @@ Constructs a phased, dependency-aware migration roadmap from Angular 16 to 21, s
      - 2. TS Upgrade: Schedule the move to exactly TypeScript 5.9.3.
      - 3. Clean Workspace: Plan the removal of `node_modules` and `package-lock.json` at the start of the leap.
      - 4. Final Build: Enforce build validation after alignment.
+     - 5. Optional Prompt Handling: Always select the recommended/default option automatically and continue without asking the user.
    - **Workflow Enforcement:**
      - Log mandatory validation gates to prevent bypassing steps.
+      - After every successful version jump, require git status, commit, and push before starting the next jump.
 3. Validate that the plan follows the strict incremental sequence.
 
 ### Outputs

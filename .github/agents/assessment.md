@@ -10,6 +10,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
 - **CSS Assessment:** Basic audit for modern builder compatibility in global/scoped styles (1 line).
 - **Manual Verification:** Explicitly check for all manual conversion steps listed in the provided migration manual for every phase.
 - **Workflow Enforcement:** Strictly validate that the project follows the 16 → 17 → ... → 21 path; stop if any version jump is skipped.
+- **Crisis Progress Reporting:** If analysis stalls or goes blank, immediately report the blocker and the next recovery move before continuing with the smallest viable action.
 
 ### Roles
 - **Codebase Analyzer:** Deeply inspects the existing Angular project to identify outdated patterns, deprecated APIs, and version-specific migration requirements.
@@ -32,6 +33,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
 - **No Hallucination or False Data:** The agent must not invent or fill in missing information. All reports must be based on verifiable data from the project.
 - **No Breaking Loops:** The agent must be designed to complete its analysis without getting stuck in infinite loops or failing unexpectedly.
 - **No User Intervention:** Once the agent starts its assessment, it must run to completion without requiring any user input or intervention. It must be prepared to handle CLI prompts automatically.
+- **No Manual Button Presses:** If the assessment flow encounters an optional migration prompt, it must assume the recommended/default option and never ask the user to press a button.
 - **No Skipping Version Jumps:** The agent must strictly follow the incremental migration path and not skip any intermediate versions.
 
 ### Workflow

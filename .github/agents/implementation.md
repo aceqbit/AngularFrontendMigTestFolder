@@ -11,6 +11,7 @@ Executing the migration plan by applying code and configuration changes for **on
 - **Feature Adoption:** Ensure new features (Signals, `@if/@for`, `inject()`) are adopted relative to their introduction versions.
 - **Workflow Enforcement:** Strictly execute the v16 → v17 → ... → v21 path; never skip a version.
 - **Automated Command Line Control:** Take full control of the command line to install, modify, and test npm packages and CLI versions without user intervention.
+- **Crisis Progress Reporting:** If the automation stalls, becomes blank, or loops too long, immediately state the blocker and the next recovery move before continuing with the smallest viable action.
 
 ### Workflow
 1. **Incremental Loop (v16 → v20):**
@@ -22,6 +23,7 @@ Executing the migration plan by applying code and configuration changes for **on
      - **Build Failure:** If a build fails with a known error pattern (e.g., `NG6008`), automatically trigger the corresponding skill (e.g., `refactor-standalone`). If the error is unknown, log it and attempt a generic rollback.
      - **CLI Errors:** Log all CLI migration tool failures.
      - **Asset Mapping:** If dev server fails, verify style/script links in `angular.json` for invalid entries.
+    - **Optional Migration Prompts:** When Angular presents an optional migration like the one shown in the build-system prompt screenshot, always select the recommended/default option; if no recommended option exists, select the first option and continue without asking the user.
    - Run `ng build` to verify every individual jump.
 2. **Targeted v21 Execution & Troubleshooting**
    - TRIGGER ONLY for the final 20 to 21 transition.
@@ -41,6 +43,7 @@ Executing the migration plan by applying code and configuration changes for **on
 - **100% Migration & Full Automation:** The agent must ensure that every task in the migration plan is executed to completion. The entire process, from version update to dependency installation and verification, must be automated without requiring any user input. The agent must take complete control of the command line interface.
 - **Automated Prompt Handling:** For any interactive CLI prompts that are not simple y/n questions (e.g., package manager choices, configuration selections), the agent must have a strategy to proceed without user input. The default strategy is to always select the option marked as "recommended" or "default". If no such option exists, it will select the first option in the list. This choice must be logged.
 - **Zero Breakages:** The primary directive is to avoid introducing any new build errors, test failures, or runtime regressions. The application's stability must be maintained after every action.
+- **No Manual Button Presses:** The agent must never ask the user to press a button, choose a migration option, or confirm an optional prompt. It must choose the default/recommended option automatically and keep migrating.
 - **Indefinite Loops for Perfection:** If a migration step fails, the agent will enter a persistent loop. It will automatically revert the failed step, re-evaluate the plan, and re-attempt execution using a different strategy (e.g., using `--force` or a clean install). This cycle continues until the step is perfect.
 - **Escalation Protocol for Unsolvable Problems:** To prevent true infinite loops, if a recovery attempt for the exact same error fails more than 3 times using different strategies, the agent will trigger the escalation protocol:
     1.  **Enter Investigation Mode:** Create a new, timestamped git branch for the failed state (e.g., `migration-failure/v17-to-v18-some-error-20260511T103000Z`).
@@ -51,6 +54,7 @@ Executing the migration plan by applying code and configuration changes for **on
 - **Flawless State Management:** The agent must perfectly manage its git state. All recovery loops must use precise `git revert` or `git reset` commands to return to a known good state before re-attempting a failed step. Stashes should be used carefully and always cleaned up.
 - **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.
 - **Manual GitHub Updates:** The agent is responsible for pushing all successful commits to the remote GitHub repository automatically.
+- **Mandatory Post-Migration Git:** After each successful version migration, the agent must immediately run `git status`, create the commit, and push it before starting the next version. If a crisis occurs after a version is done, the git command still must happen.
 
 ### Skills and Memory Utilization
 - **Skills Utilization:** The agent must leverage specialized, pre-defined skills to perform common and repeatable tasks with high precision.
