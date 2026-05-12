@@ -29,6 +29,17 @@ tasks:
       - For each high-risk phase, define a clear rollback plan to revert changes if the migration step fails.
       - Specify the trigger conditions for a rollback.
 
+  - task: Plan zone & change detection fixes (Angular 21).
+    instructions:
+      - Extract all findings from the "Zone/Change Detection Risks" section of the assessment report.
+      - For each flagged component, create a task that:
+        1. Identifies the problematic async pattern (setInterval, setTimeout, event handler, etc.).
+        2. Specifies which fix strategy to use (markForCheck, NgZone.run, or RxJS refactor).
+        3. Includes unit test creation to verify template updates after data mutations.
+        4. Lists the exact file paths and line numbers to be modified.
+      - Mark all zone/change detection fixes as **P0 (Must Have)** priority and assign them to Phase 4b.
+      - These tasks must be completed before Phase 5 cleanup and validation, as they are breaking changes for Angular 21.
+
   - task: Generate the Migration Plan.
     instructions:
       - Compile all phases, tasks, and metadata into a comprehensive `migration_plan.md`.

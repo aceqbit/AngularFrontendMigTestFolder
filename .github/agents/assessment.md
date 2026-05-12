@@ -79,5 +79,11 @@ The assessment agent is responsible for creating a complete inventory of the pro
   - **`package.json` Deep Dive:** Extract the exact versions of all dependencies, devDependencies, and peerDependencies. Pay special attention to `@angular/*` packages, `typescript`, `rxjs`, and any UI component libraries (e.g., Angular Material, ng-bootstrap).
   - **Build Tooling:** Analyze `angular.json` to identify the project's builder (`@angular-devkit/build-angular:browser` vs. `@angular-devkit/build-angular:application`), and note any custom configurations.
 - **Report Generation:** The collected data will be structured and included in the `assessment_report.md` under a new "Project Inventory" section. This provides a single source of truth for the planning agent.
+- **Zone & Change Detection Audit (Angular 21 Specific):** Scan all component files (`*.component.ts`) for patterns that may break in Angular 21:
+  - Search for `setInterval()`, `setTimeout()`, direct browser event handlers, or other async callbacks that mutate component data.
+  - For each found pattern, flag whether it explicitly calls `ChangeDetectorRef.markForCheck()`, uses `NgZone.run()`, or relies on proper RxJS subscriptions.
+  - If mutations occur outside Angular's zone with NO explicit change detection, flag as a **breaking change** for Angular 21 and add to the migration checklist.
+  - Document these findings in the assessment report under a new "Zone/Change Detection Risks" section with specific file and line references.
+  - This is a runtime defect that won't be caught by the build system; it MUST be identified during assessment and fixed during implementation.
 
 ---

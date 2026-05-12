@@ -79,6 +79,20 @@ A detailed breakdown of risks identified during assessment:
     - Refactor code to remove deprecated items flagged in the assessment.
     - Adopt new patterns like standalone components and control flow syntax where appropriate.
 
+#### Phase 4b: Zone & Change Detection Fixes (Angular 21 Critical)
+- **Objective:** Fix all components with zone/change detection issues that will break in Angular 21.
+- **Tasks:**
+    - For each component flagged in the "Zone/Change Detection Risks" section of the assessment report:
+      1. Locate the async callback or mutation pattern (e.g., `setInterval`, `setTimeout`, direct event handler).
+      2. Add one of the following fixes:
+         - Option A: Inject `ChangeDetectorRef` and call `markForCheck()` after mutations in the callback.
+         - Option B: Inject `NgZone` and wrap mutations in `this.ngZone.run(() => { ... })` to keep operations inside Angular's zone (preferred for performance).
+         - Option C: Refactor to use proper RxJS subscriptions managed by Angular.
+      3. Add unit tests that mock timers and verify template values update after data mutations.
+      4. Verify the fix with `ng build` and visual testing in the browser.
+    - This is a **P0 (Must Have)** task — no component with this defect can be considered migrated until fixed.
+    - Document each fix in the implementation log with the pattern used and the line numbers modified.
+
 #### Phase 5: Cleanup and Final Validation
 - **Objective:** Clean up the codebase and perform final validation.
 - **Tasks:**

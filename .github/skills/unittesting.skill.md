@@ -31,6 +31,18 @@ tasks:
       - Ensure that the command exits with a zero status code, indicating all tests passed.
       - If a failure affects many modules, start with the smallest changed area and report the next recovery move before re-running the broad suite.
 
+  - task: Test zone & change detection fixes (Angular 21).
+    instructions:
+      - For each component that received a zone/change detection fix (Phase 4b), verify that tests exist.
+      - Tests must include:
+        1. Mock `setInterval`, `setTimeout`, or event handlers using `jasmine.clock()` or `fakeAsync()`.
+        2. Trigger the async operation (e.g., tick the clock forward).
+        3. Assert that the component's template values have updated (use fixture detection and change detection cycle verification).
+        4. Example for `setInterval`: Use `fakeAsync()`, call the component method that starts the interval, call `tick(1000)`, then verify `fixture.detectChanges()` and check that the template shows updated values.
+      - These tests must PASS; otherwise, the component is still broken in Angular 21.
+      - Run tests for the affected components before running the full suite.
+      - Document which components have zone/change detection tests and their status in the test report.
+
   - task: Generate the Test Report.
     instructions:
       - Capture the output of the test run.

@@ -32,6 +32,20 @@ tasks:
       - `src/app/app.module.ts`
       - `src/app/app.component.ts`
 
+  - task: Audit all component files for zone/change detection risks (Angular 21).
+    instructions:
+      - Recursively scan all `*.component.ts` files in `src/app/`.
+      - Search for patterns: `setInterval()`, `setTimeout()`, direct event handlers, browser APIs with callbacks.
+      - For each found pattern, check if the component:
+        1. Calls `ChangeDetectorRef.markForCheck()` after mutations, OR
+        2. Uses `NgZone.run()` to wrap mutations, OR
+        3. Uses proper RxJS subscriptions with Angular's zone management
+      - If NONE of these are present, flag as a **breaking change for Angular 21**.
+      - Document findings in a "Zone/Change Detection Risks" section with file paths and line numbers.
+      - Example: "dashboard-widgets.component.ts (line 45) uses setInterval() but does not call markForCheck() — CRITICAL FIX NEEDED"
+    files:
+      - `src/app/**/*.component.ts`
+
   - task: Generate the Assessment Report.
     instructions:
       - Consolidate all findings into a structured Markdown report.

@@ -31,6 +31,17 @@ tasks:
       - If a build fails, attempt to fix the issue or trigger the rollback procedure.
       - Treat build warnings tied to the migration as cleanup items that must be resolved or explicitly recorded.
 
+  - task: Detect and fix zone/change detection issues.
+    instructions:
+      - After applying code changes, scan for components using `setInterval()`, `setTimeout()`, direct event handlers, or other async callbacks that mutate component data.
+      - If found, verify that the component has one of the following:
+        1. `ChangeDetectorRef.markForCheck()` called after data mutations in the callback, OR
+        2. Data mutations wrapped inside `this.ngZone.run(() => { ... })`, OR
+        3. Mutations happening inside proper RxJS subscriptions (which are automatically managed by Angular)
+      - If none of these patterns are present, the component is **broken post-migration** and must be fixed before committing.
+      - Document the fix in the implementation log: "Fixed zone/change detection in [Component]" with the pattern used.
+      - This is a **runtime defect** that won't be caught by compilation or basic unit tests; it only appears during actual user interaction with the component.
+
   - task: Log all actions.
     instructions:
       - Maintain a detailed log of every command run and file modified.
