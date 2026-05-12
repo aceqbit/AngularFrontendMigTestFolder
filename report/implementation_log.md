@@ -9,9 +9,32 @@
 - Updated `@angular/core` and `@angular/cli` to version 18.
 - Ran `ng build` successfully.
 
+### v17 to v18 Migration
+
+- **Status:** Completed
+- **Date:** 2026-05-12
+- **Summary:**
+    - Cleaned workspace.
+    - Updated Angular packages to version 18.
+    - Refactored the application to use standalone bootstrapping.
+    - Deleted `AppModule`.
+    - Refactored routing to be standalone.
+    - Updated `AppComponent` to be standalone.
+    - Build successful.
+
 ## Angular 18 to 19
 - Updated `@angular/core` and `@angular/cli` to version 19.
 - Ran `ng build` successfully.
+
+### v18 to v19 Migration
+
+- **Status:** Completed
+- **Date:** 2026-05-12
+- **Summary:**
+    - Updated Angular packages to version 19 using `ng update`.
+    - Automated migrations applied for standalone components and build system.
+    - Performed a clean install of `node_modules`.
+    - Verified the build and tests, both passed successfully.
 
 ## Angular 19 to 20
 - Updated `@angular/core` and `@angular/cli` to version 20.

@@ -19,3 +19,13 @@ This file is the master log for all skills. When a new skill is developed or an 
 - **Description:** A skill to automatically fix `NG6008` errors by moving standalone components from `declarations` to `imports` in NgModules.
 - **Reason:** This was a frequent and repetitive error during the initial migration phases.
 - **Status:** Implemented.
+
+### Updated Skill Behavior: Optional Migration Prompts
+- **Description:** Migration skills must automatically choose the recommended/default option, or the first option if no default is shown, when Angular presents an optional migration prompt.
+- **Reason:** The migration must never pause for user button presses.
+- **Status:** Implemented.
+
+### Updated Skill Behavior: Targeted Test Triage
+- **Description:** Unit-testing skills must start with the changed feature area or the first failing spec when the full suite becomes too broad or fails many modules at once.
+- **Reason:** The full suite was too heavy for some migration steps and caused unhelpful all-module failures.
+- **Status:** Implemented.

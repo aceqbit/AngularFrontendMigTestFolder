@@ -8,12 +8,15 @@ Records all migration steps and architectural refactors for future reference, en
 - Document what changed in every version jump and why.
 - Provide before/after code samples for major pattern shifts.
 - Record any CSS migrations or builder-related style fixes (1 line).
+- Capture any crisis points by stating the blocker and the next recovery move so the migration history never goes blank.
 
 ### Workflow
 1. Build the documentation incrementally as each version jump is validated.
 2. **Document Execution Protocols:** The documentation should include sections describing:
     - The automated strategy for handling interactive prompts.
+    - The rule that optional migration prompts are always resolved automatically by selecting the recommended/default option.
     - The clean and concise commit message format used for all changes.
+    - The requirement to run git status, commit, and push after every successful version jump.
     - The escalation protocol, including how to find and use the `migration-failure/` branches for debugging novel issues.
 3. Summarize final v21 state and any troubleshooting performed.
 

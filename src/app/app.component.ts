@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { LayoutManagerComponent } from './components/layout-manager/layout-manager.component';
 import { WorkflowDesignerComponent } from './components/workflow-designer/workflow-designer.component';
@@ -19,21 +20,22 @@ import { AutoCompleteComplexComponent } from './components/autocomplete-complex/
 @Component({
     selector: 'app-root',
     imports: [
+        RouterModule,
         LayoutManagerComponent,
-        DashboardWidgetsComponent,
         WorkflowDesignerComponent,
         CalendarComponent,
         DateRangePickerComponent,
         EventSchedulerComponent,
         DataGridComponent,
-        AutoCompleteComplexComponent,
         FileExplorerComponent,
         AdvancedFormStepperComponent,
         TreeViewLargeComponent,
         StickyNotesComponent,
         NotificationHubComponent,
         ResourceMonitorComponent,
-        SettingsPanelComponent
+        SettingsPanelComponent,
+        DashboardWidgetsComponent,
+        AutoCompleteComplexComponent
     ],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']

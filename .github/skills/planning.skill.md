@@ -14,7 +14,8 @@ tasks:
   - task: Decompose assessment findings into a phased roadmap.
     instructions:
       - Parse `report/assessment_report.md` to extract all identified issues.
-      - Group issues into logical phases (e.g., Core Updates, Dependency Fixes, Refactoring).
+      - Group issues
+       into logical phases (e.g., Core Updates, Dependency Fixes, Refactoring).
       - Create a strict, sequential plan for each version jump (v16->v17, v17->v18, etc.).
 
   - task: Define tasks, risks, and validation criteria for each phase.
