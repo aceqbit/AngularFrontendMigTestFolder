@@ -29,3 +29,8 @@ This file is the master log for all skills. When a new skill is developed or an 
 - **Description:** Unit-testing skills must start with the changed feature area or the first failing spec when the full suite becomes too broad or fails many modules at once.
 - **Reason:** The full suite was too heavy for some migration steps and caused unhelpful all-module failures.
 - **Status:** Implemented.
+
+### Updated Skill Behavior: Build Warning Cleanup
+- **Description:** Build warnings tied to the migration must be treated as cleanup tasks or explicitly logged follow-ups instead of being ignored.
+- **Reason:** The migration should not leave unresolved warning debt behind.
+- **Status:** Implemented.

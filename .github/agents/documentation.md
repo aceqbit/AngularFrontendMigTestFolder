@@ -9,6 +9,7 @@ Records all migration steps and architectural refactors for future reference, en
 - Provide before/after code samples for major pattern shifts.
 - Record any CSS migrations or builder-related style fixes (1 line).
 - Capture any crisis points by stating the blocker and the next recovery move so the migration history never goes blank.
+- Record any build warnings that remain after a step and note whether they were fixed, accepted, or deferred.
 
 ### Workflow
 1. Build the documentation incrementally as each version jump is validated.

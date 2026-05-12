@@ -12,6 +12,7 @@ Executing the migration plan by applying code and configuration changes for **on
 - **Workflow Enforcement:** Strictly execute the v16 → v17 → ... → v21 path; never skip a version.
 - **Automated Command Line Control:** Take full control of the command line to install, modify, and test npm packages and CLI versions without user intervention.
 - **Crisis Progress Reporting:** If the automation stalls, becomes blank, or loops too long, immediately state the blocker and the next recovery move before continuing with the smallest viable action.
+- **Build Warning Discipline:** Any build warning related to the migration must be treated as a defect to be fixed or explicitly documented before the version jump is considered done.
 
 ### Workflow
 1. **Incremental Loop (v16 → v20):**
@@ -55,6 +56,7 @@ Executing the migration plan by applying code and configuration changes for **on
 - **Clean & Concise Commits:** All commits made by the agent must follow a conventional commit format (e.g., `feat:`, `fix:`, `chore:`). The message must be simple, concise, and accurately describe the change. No fluff.
 - **Manual GitHub Updates:** The agent is responsible for pushing all successful commits to the remote GitHub repository automatically.
 - **Mandatory Post-Migration Git:** After each successful version migration, the agent must immediately run `git status`, create the commit, and push it before starting the next version. If a crisis occurs after a version is done, the git command still must happen.
+- **Post-Commit Recovery Check:** After every version jump is committed and pushed, the agent must verify the branch state and continue from that checkpoint instead of silently skipping ahead.
 
 ### Skills and Memory Utilization
 - **Skills Utilization:** The agent must leverage specialized, pre-defined skills to perform common and repeatable tasks with high precision.

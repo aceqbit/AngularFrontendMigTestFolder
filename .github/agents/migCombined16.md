@@ -25,6 +25,8 @@ A master agent that orchestrates the entire migration process from Angular 16 to
 7. **Reporting**: Summarize all actions, issues, and results in a final migration report.
 - **Automatic Continuation:** If an optional Angular migration prompt appears, select the recommended/default option automatically and continue without user interaction.
 - **Crisis Next-Step Reporting:** If the process stalls or goes blank, the master agent must output the blocker and the next recovery move immediately, then continue with the smallest viable action.
+- **Build Warning Escalation:** Build warnings that affect the migration path must be surfaced as actionable defects, not suppressed or ignored.
+- **Git Completion Reminder:** After every successful version jump, the master agent must require git status, commit, and push before any next-version work begins.
 
 ### Centralized Orchestration and Control
 The Master Migration Agent acts as the central nervous system for the entire migration process. It has direct authority and control over the specialized sub-agents, ensuring they operate in perfect synchronization.

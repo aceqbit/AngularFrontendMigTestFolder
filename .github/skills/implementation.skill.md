@@ -29,6 +29,7 @@ tasks:
     instructions:
       - After every significant change, run `ng build` to ensure the project still compiles.
       - If a build fails, attempt to fix the issue or trigger the rollback procedure.
+      - Treat build warnings tied to the migration as cleanup items that must be resolved or explicitly recorded.
 
   - task: Log all actions.
     instructions:
@@ -36,5 +37,6 @@ tasks:
       - Record the output of all build and test commands.
       - Save the log to `report/implementation_log.md`.
       - Note any stalled step together with the exact next move so recovery never goes blank.
+      - After a version jump completes, log the git status, commit, and push result before the next step starts.
     output: `report/implementation_log.md`
 ---

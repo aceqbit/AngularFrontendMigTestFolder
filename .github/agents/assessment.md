@@ -11,6 +11,7 @@ Evaluates the current project for its readiness to undergo an **incremental, ste
 - **Manual Verification:** Explicitly check for all manual conversion steps listed in the provided migration manual for every phase.
 - **Workflow Enforcement:** Strictly validate that the project follows the 16 → 17 → ... → 21 path; stop if any version jump is skipped.
 - **Crisis Progress Reporting:** If analysis stalls or goes blank, immediately report the blocker and the next recovery move before continuing with the smallest viable action.
+- **Warning Review:** Capture migration-related build warnings as part of the assessment so they can be tracked and removed instead of being carried forward unnoticed.
 
 ### Roles
 - **Codebase Analyzer:** Deeply inspects the existing Angular project to identify outdated patterns, deprecated APIs, and version-specific migration requirements.

@@ -29,6 +29,7 @@ tasks:
       - Execute `ng test` with the `--watch=false` flag to run all tests once after the focused specs pass.
       - If the suite is too heavy or fails across many modules, switch to targeted specs for the changed area first, then retry the full suite.
       - Ensure that the command exits with a zero status code, indicating all tests passed.
+      - If a failure affects many modules, start with the smallest changed area and report the next recovery move before re-running the broad suite.
 
   - task: Generate the Test Report.
     instructions:
@@ -36,5 +37,6 @@ tasks:
       - Summarize the results, including the number of tests passed, failed, and skipped.
       - Save the report to `report/test_report.md`.
       - Include the next recovery step whenever a run fails so the process does not stall or go blank.
+      - Call out any build-warning-to-test-warning pattern so it can be cleaned up deliberately.
     output: `report/test_report.md`
 ---

@@ -5,11 +5,15 @@ name: planning-agent
 Constructs a phased, dependency-aware migration roadmap from Angular 16 to 21, strictly enforcing an **incremental, step-by-step upgrade sequence**.
 
 ### Responsibilities
-- **Crisis Progress Reporting:** If planning stalls or becomes blank, immediately state the blocker and the next recovery move before continuing with the smallest viable action.
+- **Warning Budget:** Any migration-related build warning must be assigned a cleanup task or documented as an explicit follow-up so it does not survive the plan unnoticed.
 
-### Workflow
-1. **Phased Roadmap Generation:**
-   - Schedule tasks for v16 through v20 incremental upgrades.
+- **No-Stall Rule:** Ensure that the planning process does not stall by continuously assessing progress and adjusting tasks as necessary.
+- **Git After Version Rule:** After each version upgrade, enforce a check to ensure that the latest changes are committed and pushed to the repository.
+
+### Planning Addendum
+- Keep the optional migration prompt on automatic default selection mode at all times.
+- Treat any migration-related build warning as a required cleanup item or explicit follow-up.
+- Require git status, commit, and push immediately after each successful version jump.
    - Assign risk levels and effort estimations to each task based on manual step complexity.
    - Define validation gates (build/test verification) for **each intermediate version**.
 2. **v21 Final Transition Roadmap**
