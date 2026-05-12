@@ -43,6 +43,24 @@ tasks:
       - This is a **runtime defect** that won't be caught by compilation or basic unit tests; it only appears during actual user interaction with the component.
 
   - task: Log all actions.
+
+    - task: Execute per-version migration plans sequentially.
+      instructions:
+        - Read `plan/migration_plan.md` to understand the master index and sequence of all 5 version-specific plans.
+        - Execute one version plan at a time in order: v16→v17, v17→v18, v18→v19, v19→v20, v20→v21.
+        - For each version plan:
+          1. Read the plan file (e.g., `plan/migration_v16_to_v17.md`)
+          2. Execute ALL tasks in that plan fully, respecting all phases and validation gates
+          3. After all tasks complete, trigger the validation gates (build, test, lint) for that version
+          4. If ALL gates pass: Create git checkpoint with commit message "chore: complete Angular [VERSION] migration"
+          5. Run `git push origin main` to push the checkpoint immediately
+          6. Verify git push succeeded before proceeding
+          7. Only then read the next version plan and repeat from step 1
+        - If any gate FAILS for a version, do NOT proceed to the next version. Halt and escalate with the specific failure and recovery options.
+        - This atomic sequencing prevents catastrophic midway failures and enables rollback to any version checkpoint.
+        - Log all version completions, gate results, and git checkpoints to `report/implementation_log.md`.
+
+    - task: Log all actions.
     instructions:
       - Maintain a detailed log of every command run and file modified.
       - Record the output of all build and test commands.

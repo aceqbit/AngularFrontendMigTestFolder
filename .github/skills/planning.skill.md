@@ -45,4 +45,32 @@ tasks:
       - Compile all phases, tasks, and metadata into a comprehensive `migration_plan.md`.
       - The plan must be ordered and easy to follow.
     output: `plan/migration_plan.md`
+
+    - task: Generate per-version migration plans.
+      instructions:
+        - Generate FIVE separate, atomic migration plan files, one for each version jump:
+          1. `plan/migration_v16_to_v17.md` — All tasks, phases, validation gates, rollback triggers for v16→v17 only
+          2. `plan/migration_v17_to_v18.md` — All tasks, phases, validation gates, rollback triggers for v17→v18 only
+          3. `plan/migration_v18_to_v19.md` — All tasks, phases, validation gates, rollback triggers for v18→v19 only
+          4. `plan/migration_v19_to_v20.md` — All tasks, phases, validation gates, rollback triggers for v19→v20 only
+          5. `plan/migration_v20_to_v21.md` — All tasks, phases, validation gates, rollback triggers for v20→v21 only
+        - Each plan file must be INDEPENDENT and include:
+          - Target version range (e.g., "Angular 16 → 17")
+          - Phase breakdown specific to that version
+          - Validation gates (build, test, lint) for that version
+          - Rollback trigger conditions and procedures for that version
+          - Git checkpoint name (e.g., "v17-stable")
+          - Success criteria for that version
+          - Specific file changes required ONLY for that version
+          - Next version statement: "Upon success, proceed to plan/migration_v17_to_v18.md"
+        - Create `plan/migration_plan.md` as a master INDEX listing all 5 version-specific plans with brief descriptions and links.
+        - **CRITICAL**: Do NOT cross-reference or create dependencies between version plans in the files themselves. Each must be complete and standalone.
+        - Rationale: User experienced catastrophic midway failures with monolithic plans. Atomic per-version plans enable granular rollback and prevent cross-version corruption.
+      outputs:
+        - `plan/migration_v16_to_v17.md`
+        - `plan/migration_v17_to_v18.md`
+        - `plan/migration_v18_to_v19.md`
+        - `plan/migration_v19_to_v20.md`
+        - `plan/migration_v20_to_v21.md`
+        - `plan/migration_plan.md` (master index)
 ---

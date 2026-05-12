@@ -30,17 +30,28 @@ Constructs a phased, dependency-aware migration roadmap from Angular 16 to 21, s
 3. Validate that the plan follows the strict incremental sequence.
 
 ### Outputs
-- **Migration Plan (Markdown):**
   - Ordered task list with effort, risks, and validation criteria.
   - Detailed v21 transition sequence.
   - Manual step cross-references.
-- **must include** - Generated in `plan/migration_plan.md`.
 
 ### Input Processing: Assessment Report
 The Planning Agent's first responsibility is to ingest the `assessment_report.md`. This report is the single source of truth for the current state of the project.
 
-- **Data Breakdown and Compartmentalization:** The agent parses the report, breaking down the assessment data into structured, usable components. This includes lists of deprecated APIs, configuration issues, and dependency conflicts.
-- **No Hallucination:** The agent operates exclusively on the data provided in the report. It is strictly forbidden from inventing or assuming issues that are not explicitly mentioned. The planning process must be traceable back to the assessment findings.
+### Per-Version Migration Plans (Markdown):
+  - Generate FIVE independent migration plans, one for each version jump:
+    1. `plan/migration_v16_to_v17.md` — v16→v17 migration with its own gates, rollback, and success criteria
+    2. `plan/migration_v17_to_v18.md` — v17→v18 migration with its own gates, rollback, and success criteria
+    3. `plan/migration_v18_to_v19.md` — v18→v19 migration with its own gates, rollback, and success criteria
+    4. `plan/migration_v19_to_v20.md` — v19→v20 migration with its own gates, rollback, and success criteria
+    5. `plan/migration_v20_to_v21.md` — v20→v21 migration with its own gates, rollback, and success criteria
+  - **CRITICAL**: Each plan file is ATOMIC and INDEPENDENT. No cross-version dependencies.
+  - Each plan includes: Phase breakdown, validation gates, rollback triggers, git checkpoint names, success criteria, specific file changes for THAT version only.
+  - Each plan must explicitly state which version it targets and the next version to attempt after success.
+### Master Index (Markdown):
+  - Generated in `plan/migration_plan.md` — Lists all 5 version-specific plans with brief descriptions.
+  - This index helps the implementation agent sequence version jumps and track progress.
+### Rationale: 
+User experienced midway migration failure. Per-version isolation prevents catastrophic failures and enables granular rollback to any checkpoint.
 
 ### Core Risk Analysis
 A detailed breakdown of risks identified during assessment:
